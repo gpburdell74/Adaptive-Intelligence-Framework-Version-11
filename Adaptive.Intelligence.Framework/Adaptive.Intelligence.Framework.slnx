@@ -1,1 +1,12 @@
-<Solution />
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="Adaptive.Intelligence.Framework.Tests/Adaptive.Intelligence.Framework.Tests.csproj" Id="736a526a-dc26-4786-b1b8-dab58e57e937">
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
+  <Project Path="Adaptive.Intelligence.Framework/Adaptive.Intelligence.Framework.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>

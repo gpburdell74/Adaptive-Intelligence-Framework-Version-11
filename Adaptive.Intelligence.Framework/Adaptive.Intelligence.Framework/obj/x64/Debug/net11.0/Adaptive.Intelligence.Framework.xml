@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Adaptive.Intelligence.Framework</name>
+    </assembly>
+    <members>
+        <member name="T:Adaptive.Intelligence.Common.DisposableObjectBase">
+            <summary>
+            Provides the base implementation of the <see cref="T:System.IDisposable"/>  pattern.
+            </summary>
+        </member>
+        <member name="E:Adaptive.Intelligence.Common.DisposableObjectBase.Disposed">
+            <summary>
+            Occurs when the instance is disposed.
+            </summary>
+        </member>
+        <member name="F:Adaptive.Intelligence.Common.DisposableObjectBase._disposed">
+            <summary>
+            Disposed flag.
+            </summary>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.DisposableObjectBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Adaptive.Intelligence.Common.DisposableObjectBase"/> class.
+            </summary>
+            <remarks>
+            This is the default constructor.
+            </remarks>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.DisposableObjectBase.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing">
+            <b>true</b> to release both managed and unmanaged resources;
+            <b>false</b> to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.DisposableObjectBase.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.DisposableObjectBase.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Adaptive.Intelligence.Common.DisposableObjectBase"/> class.
+            </summary>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.DisposableObjectBase.IsDisposed">
+            <summary>
+            Gets a value indicating whether this instance is disposed.
+            </summary>
+            <value>
+            <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.DisposableObjectBase.OnDisposed(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:Adaptive.Intelligence.Common.DisposableObjectBase.Disposed" /> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:System.EventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="T:Adaptive.Intelligence.Common.ExceptionTrackingBase">
+            <summary>
+            Provides a class that can track the exceptions that occur during its operation.
+            </summary>
+            <seealso cref="T:Adaptive.Intelligence.Common.DisposableObjectBase" />
+        </member>
+        <member name="F:Adaptive.Intelligence.Common.ExceptionTrackingBase._exceptionList">
+            <summary>
+            The exception list.
+            </summary>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionTrackingBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Adaptive.Intelligence.Common.ExceptionTrackingBase"/> class.
+            </summary>
+            <remarks>
+            This is the default constructor.
+            </remarks>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionTrackingBase.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><b>true</b> to release both managed and unmanaged resources;
+            <b>false</b> to release only unmanaged resources.</param>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.ExceptionTrackingBase.Exceptions">
+            <summary>
+            Gets the reference to the list of exceptions that have been caught.
+            </summary>
+            <value>
+            An <see cref="T:Adaptive.Intelligence.Common.ExceptionCollection"/> containing the list of exceptions.
+            </value>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.ExceptionTrackingBase.ExceptionMessages">
+            <summary>
+            Gets the messages from all the captured exceptions as a string.
+            </summary>
+            <value>
+            A string containing all the exception messages, or <see cref="F:System.String.Empty"/>.
+            </value>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.ExceptionTrackingBase.FirstException">
+            <summary>
+            Gets the reference to the first exception in the list, if present.
+            </summary>
+            <value>
+            The first <see cref="T:System.Exception"/> that was caught, if any.
+            </value>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.ExceptionTrackingBase.HasExceptions">
+            <summary>
+            Gets a value indicating whether there are currently any exceptions in the list.
+            </summary>
+            <value>
+              <c>true</c> if exceptions have been caught; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionTrackingBase.AddException(System.Exception)">
+            <summary>
+            Adds the exception to the list.
+            </summary>
+            <param name="ex">
+            The <see cref="T:System.Exception"/> instance to be added to the list.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionTrackingBase.ClearExceptions">
+            <summary>
+            Clears the current exception list.
+            </summary>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionTrackingBase.CopyExceptions(Adaptive.Intelligence.Common.IOperationalResult)">
+            <summary>
+            Copies the exceptions from the result instance to the local instance's exceptions list.
+            </summary>
+            <param name="result">
+            The <see cref="T:Adaptive.Intelligence.Common.IOperationalResult"/> result from a SQL operation.
+            </param>
+        </member>
+        <member name="T:Adaptive.Intelligence.Common.PropertyAwareBase">
+            <summary>
+            Provides the base implementation for classes that can notify subscribers when a property value changes.
+            </summary>
+            <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+        </member>
+        <member name="E:Adaptive.Intelligence.Common.PropertyAwareBase.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.PropertyAwareBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Adaptive.Intelligence.Common.PropertyAwareBase"/> class.
+            </summary>
+            <remarks>
+            This is the default constructor.
+            </remarks>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.PropertyAwareBase.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><b>true</b> to release both managed and unmanaged resources;
+            <b>false</b> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.PropertyAwareBase.OnPropertyChanged(System.String)">
+            <summary>
+            Called when a property value is changed.
+            </summary>
+            <param name="propertyName">
+            A string containing the name of the property.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.PropertyAwareBase.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Raises the <see cref="E:Adaptive.Intelligence.Common.PropertyAwareBase.PropertyChanged" /> event.
+            </summary>
+            <param name="e">The <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="T:Adaptive.Intelligence.Common.ExceptionCollection">
+            <summary>
+            Contains a simple container for a list of <see cref="T:System.Exception"/> instances.
+            </summary>
+            <seealso cref="T:System.Collections.Generic.List`1" />
+            <seealso cref="T:System.Exception"/>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Adaptive.Intelligence.Common.ExceptionCollection"/> class.
+            </summary>
+            <remarks>
+            This is the default constructor.
+            </remarks>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionCollection.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Adaptive.Intelligence.Common.ExceptionCollection"/> class.
+            </summary>
+            <param name="capacity">
+            An integer specifying the number of elements that the new list can initially store.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionCollection.#ctor(System.Collections.Generic.IEnumerable{System.Exception})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Adaptive.Intelligence.Common.ExceptionCollection"/> class.
+            </summary>
+            <param name="sourceList">
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> list of <see cref="T:System.Exception"/> to add to this collection instance.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionCollection.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionCollection.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionCollection.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>
+            A new <see cref="T:Adaptive.Intelligence.Common.ExceptionCollection"/> instance that contains the same <see cref="T:System.Exception"/>
+            instances as the current instance.
+            </returns>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.ExceptionCollection.System#ICloneable#Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>
+            A new object that is a copy of this instance.
+            </returns>
+        </member>
+        <member name="T:Adaptive.Intelligence.Common.IExceptionTracking">
+            <summary>
+            Provides the signature definition for classes that can track the exceptions that occur during its operation.
+            </summary>
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.IExceptionTracking.Exceptions">
+            <summary>
+            Gets the reference to the list of exceptions that have been caught.
+            </summary>
+            <value>
+            An <see cref="T:Adaptive.Intelligence.Common.ExceptionCollection"/> of <see cref="T:System.Exception"/> instances.
+            </value>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.IExceptionTracking.HasExceptions">
+            <summary>
+            Gets a value indicating whether there are currently any exceptions in the list.
+            </summary>
+            <value>
+              <c>true</c> if exceptions have been caught; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.IExceptionTracking.AddException(System.Exception)">
+            <summary>
+            Adds the exception to the list.
+            </summary>
+            <param name="ex">
+            The <see cref="T:System.Exception"/> instance to be added to the list.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.IExceptionTracking.ClearExceptions">
+            <summary>
+            Clears the current exception list.
+            </summary>
+        </member>
+        <member name="T:Adaptive.Intelligence.Common.IOperationalResult">
+            <summary>
+            Provides the signature definition for an instance that contains the result of an attempt to execute an operation.
+            </summary>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.IOperationalResult.Exceptions">
+            <summary>
+            Gets the reference to the list of <see cref="T:System.Exception"/>s that were encountered.
+            </summary>
+            <value>
+            The <see cref="T:Adaptive.Intelligence.Common.ExceptionCollection"/> containing the list of exceptions.
+            </value>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.IOperationalResult.FirstException">
+            <summary>
+            Gets the reference to the first exception in the list, if any are present.
+            </summary>
+            <value>
+            The reference to the first <see cref="T:System.Exception"/> in the <see cref="P:Adaptive.Intelligence.Common.IOperationalResult.Exceptions"/> list, if 
+            the list is not null or empty.
+            </value>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.IOperationalResult.HasExceptions">
+            <summary>
+            Gets a value indicating whether this instance has exceptions.
+            </summary>
+            <value>
+              <c>true</c> if this instance has exceptions; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.IOperationalResult.Message">
+            <summary>
+            Gets or sets the message text.
+            </summary>
+            <value>
+            A string containing a user message.
+            </value>
+        </member>
+        <member name="P:Adaptive.Intelligence.Common.IOperationalResult.Success">
+            <summary>
+            Gets or sets a value indicating whether the related operation
+            was successful.
+            </summary>
+            <value>
+              <c>true</c> if the related operation was successful; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.IOperationalResult.AddException(System.Exception)">
+            <summary>
+            Adds exception instance to the current instance's list of exceptions.
+            </summary>
+            <param name="exception">
+            The <see cref="T:System.Exception"/> instance to add to the current instance's exceptions list.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.IOperationalResult.AddExceptions(System.Collections.Generic.IEnumerable{System.Exception})">
+            <summary>
+            Adds the list of exceptions to the current instance's list of exceptions.
+            </summary>
+            <param name="exceptions">
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> list of <see cref="T:System.Exception"/> instances to add to the current
+            instance's list.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.IOperationalResult.CopyTo(Adaptive.Intelligence.Common.IOperationalResult)">
+            <summary>
+            Copies the data in the current instance to the provided instance.
+            </summary>
+            <param name="newResult">
+            The <see cref="T:Adaptive.Intelligence.Common.IOperationalResult"/> to copy the field values to.
+            </param>
+        </member>
+        <member name="M:Adaptive.Intelligence.Common.IOperationalResult.SetFailureMessage(System.String)">
+            <summary>
+            Sets the instance's <see cref="P:Adaptive.Intelligence.Common.IOperationalResult.Message"/> property to the provided value, and 
+            sets the <see cref="P:Adaptive.Intelligence.Common.IOperationalResult.Success"/> property to <c>false</c>.
+            </summary>
+        </member>
+    </members>
+</doc>
