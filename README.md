@@ -25,23 +25,60 @@ some of which (but not all) are listed below for the `Adaptive.Intelligence.Comm
 
 <hr style="border: none; height: 1px; background: linear-gradient(to right, limegreen, blue);">
 
-** Notable Classes and Interfaces In The `Adaptive.Intelligence.Common.Abstractions` namespace:
+**Notable Classes and Interfaces In The `Adaptive.Intelligence.Common.Abstractions` namespace:**
 
 <hr style="border: none; height: 1px; background: linear-gradient(to right, limegreen, blue);">
 
 Defines The Contract For:
 
-`IExceptionTracking`	- Classes that require exception tracking during operation.
-`IOperationResult`		- Classes that represent the result of an operation, including success/failure status and any associated errors or messages.
-`IOperationResult<T>`	- Any `IOperationResult` implementations that also contain or return data.
+<table style="width:100%; border-collapse: collapse; border: 1px solid linear-gradient(to right, limegreen, blue);">
+	<tr>
+		<td>IDisposableObject</td>
+		<td> Classes that implement the IDisposable pattern.</td>
+	</tr>
+	<tr>
+		<td>IExceptionTracking</td>
+		<td> Classes that require exception tracking during operation.</td>
+	</tr>
+	<tr>
+		<td>IOperationResult</td>
+		<td>Classes that represent the result of an operation, including success/failure status and any associated errors or messages.</td>
+	</tr>
+	<tr>
+		<td>IOperationResult&lt;T&gt;</td>
+		<td> Any `IOperationResult` implementations that also contain or return data.</td>
+	</tr>
+</table>
 
 Provides the Base Implementation For:
 
-`DisposableObjectBase`	- the IDisposable pattern.
-`PropertyAwareBase`		- the INotifyPropertyChanged pattern.
-`ExceptionTrackingBase`	- Classes whose operations require catching and tracking of exceptions during operation.
-`LoggableBase`			- Classes whose operations require logging and dependency-injection of the `ILogger` interface.
-`StaticLoggableBase`	- Classes whose operations require logging, but utilize a static instance for writing to a single log file.
-`BusinessBase`			- General purpose business objects.
-`BusinessBase<T>`		- General purpose business objects with a specific data type.
+<table style="width:100%; border-collapse: collapse; border: 1px solid linear-gradient(to right, limegreen, blue);">
+	<tr>
+		<td>DisposableObjectBase</td>
+		<td>the IDisposable pattern.</td>
+	</tr>
+	<tr>
+		<td>PropertyAwareBase</td>
+		<td>the INotifyPropertyChanged pattern.</td>
+	</tr>
+	<tr>
+		<td>ExceptionTrackingBase</td>
+		<td>Classes whose operations require catching and tracking of exceptions during operation.</td>
+	</tr>
+	<tr>
+		<td>LoggableBase</td>
+		<td> Classes whose operations require logging and dependency-injection of the `ILogger` interface.</td>
+	</tr>
+	<tr>
+		<td>StaticLoggableBase</td>
+		<td>Classes whose operations require logging, but utilize a static instance for writing to a single log file.</td>
+	</tr>
+	<tr>
+		<td>BusinessBase</td>
+		<td> General purpose business objects.</td>
+	</tr>
+	<tr>
+		<td>BusinessBase<T></td>
+		<td>General purpose business objects with a specific data type.</td>
+	</tr>
 
