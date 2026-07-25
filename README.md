@@ -33,10 +33,6 @@ some of which (but not all) are listed below for the `Adaptive.Intelligence.Comm
 
 <table style="width:100%; border-collapse: collapse; border: 1px solid linear-gradient(to right, limegreen, blue);">
 	<tr>
-		<td><code>IDisposableObject</code></td>
-		<td> Classes that implement the <code>IDisposable</code> pattern.</td>
-	</tr>
-	<tr>
 		<td><code>IExceptionTracking</code></td>
 		<td> Classes that require exception tracking during operation.</td>
 	</tr>
