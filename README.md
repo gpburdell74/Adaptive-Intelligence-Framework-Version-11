@@ -3,13 +3,13 @@
 <hr style="border: none; height: 1px; background: linear-gradient(to right, limegreen, blue);">
 
 This is a general purpose .NET Class Library for application development specifically for .NET 11.  
-There are no guarantess provided, so use at your own discretion.
+There are no guarantees provided, so use at your own discretion.
 
 Code from the original Adaptive Intelligence Framework is re-used here with improvements and optimizations,
 but instead of being split into multiple libraries, the code is now combined into a single library 
-with specific namesaces for easier use and deployment.
+with specific namespaces for easier use and deployment.
 
-### <span style="margin-bottom:0.25px">The **Common** Namespsace</span>
+### <span style="margin-bottom:0.25px">The **Common** Namespace</span>
 
 <hr style="border: none; height: 1px; background: linear-gradient(to right, limegreen, blue);">
 
