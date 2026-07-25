@@ -25,7 +25,7 @@ some of which (but not all) are listed below for the `Adaptive.Intelligence.Comm
 
 <hr style="border: none; height: 1px; background: linear-gradient(to right, limegreen, blue);">
 
-**Notable Classes and Interfaces In The `Adaptive.Intelligence.Common.Abstractions` namespace:
+** Notable Classes and Interfaces In The `Adaptive.Intelligence.Common.Abstractions` namespace:
 
 <hr style="border: none; height: 1px; background: linear-gradient(to right, limegreen, blue);">
 
