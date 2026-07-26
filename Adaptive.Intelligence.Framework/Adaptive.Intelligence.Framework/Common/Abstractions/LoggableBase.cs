@@ -5,7 +5,7 @@ namespace Adaptive.Intelligence.Common.Abstractions;
 /// <summary>
 /// Provides a base definition for a class that can log information and exceptions.
 /// </summary>
-public abstract class LoggableBase : DisposableObjectBase
+public abstract class LoggableBase : PropertyAwareBase
 {
     #region Private Member Declarations
     /// <summary>
@@ -56,7 +56,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogCritical(string message)
     {
-        _logger?.LogCritical(message);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Critical))
+        {
+            _logger.LogCritical("{Message}", message);
+        }
     }
 
     /// <summary>
@@ -67,7 +70,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogCritical(Exception ex)
     {
-        _logger?.LogCritical(ex, ex.Message);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Critical))
+        {
+            _logger.LogCritical(ex, "{ExceptionMessage}", ex.Message);
+        }
     }
 
     /// <summary>
@@ -81,7 +87,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogCritical(Exception ex, string message)
     {
-        _logger?.LogCritical(ex, message);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Critical))
+        {
+            _logger.LogCritical(ex, "{Message}", message);
+        }
     }
 
     /// <summary>
@@ -92,7 +101,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogDebug(string debugMessage)
     {
-        _logger?.LogDebug(debugMessage);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("{DebugMessage}", debugMessage);
+        }
     }
 
     /// <summary>
@@ -106,7 +118,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogDebug(EventId eventId, string debugMessage)
     {
-        _logger?.LogDebug(eventId, debugMessage);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger?.LogDebug(eventId, "{DebugMessage}", debugMessage);
+        }
     }
 
     /// <summary>
@@ -117,7 +132,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogDebug(Exception ex)
     {
-        _logger?.LogDebug(ex, ex.Message);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger?.LogDebug(ex, "{ExceptionMessage}", ex.Message);
+        }
     }
 
     /// <summary>
@@ -131,7 +149,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogDebug(Exception ex, string debugMessage)
     {
-        _logger?.LogDebug(ex, debugMessage);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger?.LogDebug(ex, "{DebugMessage}", debugMessage);
+        }
     }
 
     /// <summary>
@@ -148,7 +169,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogDebug(EventId eventId, Exception ex, string debugMessage)
     {
-        _logger?.LogDebug(eventId, ex, debugMessage);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger?.LogDebug(eventId, ex, "{DebugMessage}", debugMessage);
+        }
     }
 
     /// <summary>
@@ -159,7 +183,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogError(string errorMessage)
     {
-        _logger?.LogError(errorMessage);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Error))
+        {
+            _logger?.LogError("{ErrorMessage}", errorMessage);
+        }   
     }
 
     /// <summary>
@@ -173,7 +200,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogError(EventId eventId, string errorMessage)
     {
-        _logger?.LogError(eventId, errorMessage);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Error))
+        {
+            _logger?.LogError(eventId, "{ErrorMessage}", errorMessage);
+        }
     }
 
     /// <summary>
@@ -184,7 +214,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogError(Exception ex)
     {
-        _logger?.LogError(ex, ex.Message);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Error))
+        {
+            _logger?.LogError(ex, "{ExceptionMessage}", ex.Message);
+        }
     }
 
     /// <summary>
@@ -198,7 +231,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogError(Exception ex, string errorMessage)
     {
-        _logger?.LogError(ex, errorMessage);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Error))
+        {
+            _logger.LogError(ex, "{ErrorMessage}", errorMessage);
+        }
     }
 
     /// <summary>
@@ -215,7 +251,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// </param>
     protected void LogError(EventId eventId, Exception ex, string errorMessage)
     {
-        _logger?.LogError(eventId, ex, errorMessage);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Error))
+        {
+            _logger.LogError(eventId, ex, "{ErrorMessage}", errorMessage);
+        }
     }
 
     /// <summary>
@@ -224,7 +263,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// <param name="message"></param>
     protected void LogInformation(string message)
     {
-        _logger?.LogInformation(message);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Information))
+        {
+            _logger?.LogInformation("{Message}", message);
+        }
     }
 
     /// <summary>
@@ -233,7 +275,10 @@ public abstract class LoggableBase : DisposableObjectBase
     /// <param name="message"></param>
     protected void LogWarning(string message)
     {
-        _logger?.LogWarning(message);
+        if (_logger != null && _logger.IsEnabled(LogLevel.Warning))
+        {
+            _logger?.LogWarning("{Message}", message);
+        }
     }
     #endregion
 }
