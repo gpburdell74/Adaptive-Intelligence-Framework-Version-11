@@ -43,7 +43,9 @@ namespace Adaptive.Intelligence.Logging
         /// <summary>
         /// Releases the unmanaged resources used by the <see cref="TextFileLog"/> and optionally releases the managed resources.
         /// </summary>
-        /// <param name="disposing"></param>
+        /// <param name="disposing">
+        /// <b>true</b> when called from <see cref="Dispose"/>; otherwise, <b>false</b>.
+        /// </param>
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
@@ -195,7 +197,7 @@ namespace Adaptive.Intelligence.Logging
 
 
         /// <summary>
-        /// Logs a message with the specified log level, event ID, state, exception, and formatter.
+        /// Logs a message with the specified log level, state, exception, and formatter.
         /// </summary>
         /// <typeparam name="TState">
         /// The type of the state to associate with the log entry.

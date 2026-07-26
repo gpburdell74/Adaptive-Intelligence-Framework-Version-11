@@ -260,7 +260,9 @@ public abstract class LoggableBase : PropertyAwareBase
     /// <summary>
     /// Formats and writes an informational message.
     /// </summary>
-    /// <param name="message"></param>
+    /// <param name="message">
+    /// A string containing the informational message.
+    /// </param>
     protected void LogInformation(string message)
     {
         if (_logger != null && _logger.IsEnabled(LogLevel.Information))
@@ -272,7 +274,9 @@ public abstract class LoggableBase : PropertyAwareBase
     /// <summary>
     /// Formats and writes an warning message.
     /// </summary>
-    /// <param name="message"></param>
+    /// <param name="message">
+    /// A string containing the warning message.
+    /// </param>
     protected void LogWarning(string message)
     {
         if (_logger != null && _logger.IsEnabled(LogLevel.Warning))

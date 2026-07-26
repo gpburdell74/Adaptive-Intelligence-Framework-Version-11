@@ -12,9 +12,11 @@ namespace Adaptive.Intelligence.Logging
         /// </summary>
         private NullScope() { }
         /// <summary>
-        /// 
+        /// Releases resources used by the <see cref="NullScope"/> instance.
         /// </summary>
-        /// <param name="disposing"></param>
+        /// <param name="disposing">
+        /// <b>true</b> when called from <see cref="Dispose"/>; otherwise, <b>false</b>.
+        /// </param>
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

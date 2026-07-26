@@ -40,9 +40,11 @@ public class ExceptionCollection : List<Exception>, IDisposable, ICloneable
     }
 
     /// <summary>
-    /// Releases unmanaged and - optionally - managed resources.
+    /// Releases resources used by the current instance.
     /// </summary>
-    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+    /// <param name="disposing">
+    /// <c>true</c> when called from <see cref="Dispose()"/>; otherwise, <c>false</c>.
+    /// </param>
     protected virtual void Dispose(bool disposing)
     {
         Clear();
