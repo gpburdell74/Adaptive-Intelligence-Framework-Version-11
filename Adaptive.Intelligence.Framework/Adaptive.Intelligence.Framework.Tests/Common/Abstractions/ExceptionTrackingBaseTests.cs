@@ -1,7 +1,8 @@
 ﻿using Adaptive.Intelligence.Common;
+using Adaptive.Intelligence.Common.Abstractions;
 using Adaptive.Intelligence.Framework.Tests.Mocks;
 
-namespace Adaptive.Intelligence.Framework.Tests.Common;
+namespace Adaptive.Intelligence.Framework.Tests.Common.Abstractions;
 
 /// <summary>
 /// Provides the tests for the <see cref="ExceptionTrackingBase"/> abstract class.
@@ -53,7 +54,7 @@ public class ExceptionTrackingBaseTests
     [Fact]
     public void ExceptionMessages_Contains_All_Exception_Messages_In_Order()
     {
-        MockExceptionTrackingBase mock = new MockExceptionTrackingBase();
+        MockExceptionTrackingBase mock = new();
         mock.AddException(new InvalidOperationException("First error"));
         mock.AddException(new ApplicationException("Second error"));
 
@@ -67,7 +68,7 @@ public class ExceptionTrackingBaseTests
     [Fact]
     public void CopyExceptions_With_Null_Result_Does_Not_Change_State()
     {
-        MockExceptionTrackingBase mock = new MockExceptionTrackingBase();
+        MockExceptionTrackingBase mock = new();
         mock.AddException(new InvalidOperationException("Existing"));
 
         mock.CopyExceptions(null);
@@ -81,9 +82,9 @@ public class ExceptionTrackingBaseTests
     [Fact]
     public void CopyExceptions_With_Result_That_Has_No_Exceptions_Does_Not_Change_State()
     {
-        MockExceptionTrackingBase mock = new MockExceptionTrackingBase();
+        MockExceptionTrackingBase mock = new();
         mock.AddException(new InvalidOperationException("Existing"));
-        FakeOperationalResult result = new FakeOperationalResult();
+        FakeOperationalResult result = new();
 
         mock.CopyExceptions(result);
 
@@ -96,10 +97,10 @@ public class ExceptionTrackingBaseTests
     [Fact]
     public void CopyExceptions_Appends_Exceptions_From_Result()
     {
-        MockExceptionTrackingBase mock = new MockExceptionTrackingBase();
+        MockExceptionTrackingBase mock = new();
         mock.AddException(new InvalidOperationException("Existing"));
 
-        FakeOperationalResult result = new FakeOperationalResult();
+        FakeOperationalResult result = new();
         result.AddException(new ApplicationException("Copied one"));
         result.AddException(new ArgumentException("Copied two"));
 
@@ -115,27 +116,26 @@ public class ExceptionTrackingBaseTests
     [Fact]
     public void Dispose_Clears_Exceptions_And_Prevents_Further_Tracking()
     {
-        MockExceptionTrackingBase mock = new MockExceptionTrackingBase();
+        MockExceptionTrackingBase mock = new();
         mock.AddException(new InvalidOperationException("Before dispose"));
         Assert.True(mock.HasExceptions);
 
         mock.Dispose();
 
-        Assert.NotNull(mock.Exceptions);
+        Assert.Throws<ObjectDisposedException>(() => mock.Exceptions);
         Assert.False(mock.HasExceptions);
         Assert.Null(mock.FirstException);
-        Assert.Empty(mock.Exceptions);
         Assert.Equal(string.Empty, mock.ExceptionMessages);
 
         mock.AddException(new InvalidOperationException("After dispose"));
         Assert.False(mock.HasExceptions);
-        Assert.Empty(mock.Exceptions);
+        Assert.Throws<ObjectDisposedException>(() => mock.Exceptions);
 
-        FakeOperationalResult result = new FakeOperationalResult();
+        FakeOperationalResult result = new();
         result.AddException(new InvalidOperationException("Copied after dispose"));
         mock.CopyExceptions(result);
         Assert.False(mock.HasExceptions);
-        Assert.Empty(mock.Exceptions);
+        Assert.Throws<ObjectDisposedException>(() => mock.Exceptions);
     }
 
     private sealed class FakeOperationalResult : IOperationalResult

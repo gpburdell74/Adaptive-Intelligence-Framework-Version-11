@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Common;
+﻿namespace Adaptive.Intelligence.Common.Abstractions;
 
 /// <summary>
 /// Provides the signature definition for an instance that contains the result of an attempt to execute an operation.

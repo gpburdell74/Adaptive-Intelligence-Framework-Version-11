@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Common;
+﻿namespace Adaptive.Intelligence.Common.Abstractions;
 
 /// <summary>
 /// Provides the signature definition for classes that can track the exceptions that occur during its operation.

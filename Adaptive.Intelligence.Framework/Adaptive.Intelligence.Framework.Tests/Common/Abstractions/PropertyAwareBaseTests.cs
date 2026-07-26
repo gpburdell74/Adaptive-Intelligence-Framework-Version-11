@@ -1,6 +1,6 @@
 ﻿using Adaptive.Intelligence.Framework.Tests.Mocks;
 
-namespace Adaptive.Intelligence.Framework.Tests.Common;
+namespace Adaptive.Intelligence.Framework.Tests.Common.Abstractions;
 
 /// <summary>
 /// Provides the tests for the <see cref="PropertyAwareBase"/> abstract class.

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Adaptive.Intelligence.Common;
+namespace Adaptive.Intelligence.Common.Abstractions;
 
 /// <summary>
 /// Provides the base implementation for classes that can notify subscribers when a property value changes.

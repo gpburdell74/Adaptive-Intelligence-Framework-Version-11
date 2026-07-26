@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Adaptive.Intelligence.Common;
+namespace Adaptive.Intelligence.Common.Abstractions;
 
 /// <summary>
 /// Provides the base implementation of the <see cref="IDisposable"/>  pattern.

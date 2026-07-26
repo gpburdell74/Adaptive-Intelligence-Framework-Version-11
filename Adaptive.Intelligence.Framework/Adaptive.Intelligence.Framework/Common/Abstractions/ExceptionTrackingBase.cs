@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Adaptive.Intelligence.Common;
+namespace Adaptive.Intelligence.Common.Abstractions;
 
 /// <summary>
 /// Provides a class that can track the exceptions that occur during its operation.
@@ -132,15 +132,21 @@ public abstract class ExceptionTrackingBase : DisposableObjectBase, IExceptionTr
     /// </param>
     public void AddException(Exception ex)
     {
-        _exceptionList ??= [];
-        _exceptionList?.Add(ex);
+        if (!IsDisposed)
+        {
+            _exceptionList ??= [];
+            _exceptionList?.Add(ex);
+        }
     }
     /// <summary>
     /// Clears the current exception list.
     /// </summary>
     public void ClearExceptions()
     {
-        _exceptionList?.Clear();
+        if (!IsDisposed)
+        {
+            _exceptionList?.Clear();
+        }
     }
     /// <summary>
     /// Copies the exceptions from the result instance to the local instance's exceptions list.
@@ -150,9 +156,13 @@ public abstract class ExceptionTrackingBase : DisposableObjectBase, IExceptionTr
     /// </param>
     public void CopyExceptions(IOperationalResult? result)
     {
-        if (_exceptionList != null && result != null && result.Exceptions != null)
+        if (!IsDisposed)
         {
-            _exceptionList.AddRange(result.Exceptions!);
+
+            if (_exceptionList != null && result != null && result.Exceptions != null)
+            {
+                _exceptionList.AddRange(result.Exceptions!);
+            }
         }
     }
     #endregion
