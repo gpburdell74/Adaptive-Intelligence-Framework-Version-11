@@ -62,6 +62,7 @@
 
   <ItemGroup>
     <Folder Include="Common\Attributes\" />
+    <Folder Include="Common\Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>

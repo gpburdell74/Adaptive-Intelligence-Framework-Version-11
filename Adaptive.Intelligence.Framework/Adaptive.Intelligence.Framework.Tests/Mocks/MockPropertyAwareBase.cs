@@ -1,4 +1,4 @@
-﻿using Adaptive.Intelligence.Common;
+﻿using Adaptive.Intelligence.Common.Abstractions;
 
 namespace Adaptive.Intelligence.Framework.Tests.Mocks;
 
