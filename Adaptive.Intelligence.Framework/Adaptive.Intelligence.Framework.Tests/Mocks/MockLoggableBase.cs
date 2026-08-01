@@ -1,4 +1,4 @@
-using Adaptive.Intelligence.Common.Abstractions;
+using Adaptive.Intelligence.Common.Abstractions.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace Adaptive.Intelligence.Framework.Tests.Mocks;

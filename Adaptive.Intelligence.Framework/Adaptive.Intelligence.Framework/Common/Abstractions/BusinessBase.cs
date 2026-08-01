@@ -1,4 +1,5 @@
-﻿using Adaptive.Intelligence.Validation;
+﻿using Adaptive.Intelligence.Common.Abstractions.Logging;
+using Adaptive.Intelligence.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -445,7 +446,6 @@ public abstract class BusinessBase : LoggableBase, IValidatableObject
     /// <returns>
     /// A collection that holds failed-validation information.
     /// </returns>
-    /// <exception cref="System.NotImplementedException"></exception>
     public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         _validationMessages ??= [];

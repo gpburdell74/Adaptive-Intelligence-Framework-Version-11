@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Adaptive.Intelligence.Common.Abstractions;
+namespace Adaptive.Intelligence.Common.Abstractions.Logging;
 
 /// <summary>
 /// Provides a base definition for a class that can log information and exceptions.

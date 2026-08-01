@@ -56,8 +56,8 @@ public class ValidationMessage : ValidationResult, IDisposable
     public ValidationMessage(string message, ValidationLevel level) : base(message)
     {
         ErrorMessage = message;
-        IsValid = true;
         Level = level;
+        IsValid = (level != ValidationLevel.Error);        
     }
 
     /// <summary>

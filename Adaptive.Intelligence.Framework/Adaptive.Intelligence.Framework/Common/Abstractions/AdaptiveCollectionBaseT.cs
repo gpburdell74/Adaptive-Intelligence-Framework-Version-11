@@ -62,7 +62,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <param name="instance">
     /// The instance to add to the collection.
     /// </param>
-    public new void Add(T instance)
+    public virtual new void Add(T instance)
     {
         base.Add(instance);
         OnCollectionChanged(NotifyCollectionChangedAction.Add);
@@ -74,7 +74,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <param name="collection">
     /// The <see cref="IEnumerable{T}"/> instance containing the list of items to be added.
     /// </param>
-    public new void AddRange(IEnumerable<T> collection)
+    public virtual new void AddRange(IEnumerable<T> collection)
     {
         base.AddRange(collection);
         OnCollectionChanged(NotifyCollectionChangedAction.Add);
@@ -83,7 +83,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <summary>
     /// Clears the content of the collection.
     /// </summary>
-    public new void Clear()
+    public virtual new void Clear()
     {
         base.Clear();
         OnCollectionChanged(NotifyCollectionChangedAction.Reset);
@@ -95,7 +95,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <param name="index">
     /// An integer specifying the ordinal index.
     /// </param>
-    public new void RemoveAt(int index)
+    public virtual new void RemoveAt(int index)
     {
         if (index >= 0 && index < Count)
         {
@@ -110,7 +110,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <param name="instance">
     /// The reference to the instance of <typeparamref name="T"/> to be removed.
     /// </param>
-    public new void Remove(T instance)
+    public virtual new void Remove(T instance)
     {
         if (instance != null && Contains(instance))
         {
@@ -125,7 +125,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <param name="matchingFunction">
     /// The predicate delegate that defines the conditions of the elements to remove.
     /// </param>
-    public new void RemoveAll(Predicate<T> matchingFunction)
+    public virtual new void RemoveAll(Predicate<T> matchingFunction)
     {
         base.RemoveAll(matchingFunction);
         OnCollectionChanged(NotifyCollectionChangedAction.Remove);  
@@ -139,7 +139,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <param name="count">
     /// The number of elements to remove.
     /// </param>
-    public new void RemoveRange(int index, int count)
+    public virtual new void RemoveRange(int index, int count)
     {
         base.RemoveRange(index, count);
         OnCollectionChanged(NotifyCollectionChangedAction.Remove);
@@ -148,7 +148,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <summary>
     /// Reverses the order of the elements in the entire <see cref="AdaptiveCollectionBase{T}"/> collection.
     /// </summary>
-    public new void Reverse()
+    public virtual new void Reverse()
     {
         base.Reverse();
         OnCollectionChanged(NotifyCollectionChangedAction.Move);
@@ -157,7 +157,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <summary>
     /// Sorts the elements in the entire <see cref="AdaptiveCollectionBase{T}"/> collection using the default comparer.
     /// </summary>
-    public new void Sort()
+    public virtual new void Sort()
     {
         base.Sort();
         OnCollectionChanged(NotifyCollectionChangedAction.Move);
@@ -169,7 +169,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <param name="comparisonFunction">
     /// The comparison function to use for sorting.
     /// </param>
-    public new void Sort(Comparison<T> comparisonFunction)
+    public virtual new void Sort(Comparison<T> comparisonFunction)
     {
         base.Sort(comparisonFunction);
         OnCollectionChanged(NotifyCollectionChangedAction.Move);
@@ -187,7 +187,7 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// <param name="comparer">
     /// The comparer to use for sorting.
     /// </param>
-    public new void Sort(int index, int count, IComparer<T> comparer)
+    public virtual new void Sort(int index, int count, IComparer<T> comparer)
     {
         base.Sort(index, count, comparer);
         OnCollectionChanged(NotifyCollectionChangedAction.Move);
@@ -204,8 +204,16 @@ public class AdaptiveCollectionBase<T> : List<T>, INotifyCollectionChanged
     /// </param>
     protected virtual void OnCollectionChanged(NotifyCollectionChangedAction action)
     {
-        CollectionChanged?.Invoke(this,
-            new NotifyCollectionChangedEventArgs(action));
+        if (action == NotifyCollectionChangedAction.Reset)
+        {
+            CollectionChanged?.Invoke(this,
+                new NotifyCollectionChangedEventArgs(action));
+        }
+        else
+        {
+            CollectionChanged?.Invoke(this,
+                new NotifyCollectionChangedEventArgs(action, this));
+        }
     }
     #endregion
 
