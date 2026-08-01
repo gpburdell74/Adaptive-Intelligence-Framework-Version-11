@@ -1,4 +1,4 @@
-﻿using Adaptive.Intelligence.Common.Abstractions;
+﻿using Adaptive.Intelligence.Common.Abstractions.Logging;
 using Adaptive.Intelligence.Framework.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 
@@ -136,6 +136,61 @@ public class LoggableBaseTests
         AssertLogEntry(logger.Entries[0], LogLevel.Information, 0, "before dispose", null);
     }
 
+    /// <summary>
+    /// Tests that no entries are written when all log levels are disabled.
+    /// </summary>
+    [Fact]
+    public void Log_Methods_Do_Not_Write_When_Log_Levels_Are_Disabled()
+    {
+        LevelControlledTestLogger logger = new(
+            enabledLevels:
+            [
+                LogLevel.None
+            ]);
+
+        MockLoggableBase mock = new(logger);
+        EventId eventId = new(55, "DisabledEvent");
+        InvalidOperationException ex = new("disabled");
+
+        mock.InvokeLogCritical("critical");
+        mock.InvokeLogCritical(ex);
+        mock.InvokeLogCritical(ex, "critical-ex");
+
+        mock.InvokeLogDebug("debug");
+        mock.InvokeLogDebug(eventId, "debug-event");
+        mock.InvokeLogDebug(ex);
+        mock.InvokeLogDebug(ex, "debug-ex");
+        mock.InvokeLogDebug(eventId, ex, "debug-event-ex");
+
+        mock.InvokeLogError("error");
+        mock.InvokeLogError(eventId, "error-event");
+        mock.InvokeLogError(ex);
+        mock.InvokeLogError(ex, "error-ex");
+        mock.InvokeLogError(eventId, ex, "error-event-ex");
+
+        mock.InvokeLogInformation("info");
+        mock.InvokeLogWarning("warn");
+
+        Assert.Empty(logger.Entries);
+    }
+    [Fact]
+    public void Log_EventId_String_Overload_Works()
+    {
+        LevelControlledTestLogger logger = new(
+            enabledLevels:
+            [
+                LogLevel.Debug
+            ]);
+
+        MockLoggableBase mock = new(logger);
+        EventId eventId = new(42, "TestEvent");
+        mock.InvokeLogDebug(eventId, "This is an debug log test.");
+        Assert.NotEmpty(logger.Entries);
+        Assert.Equal(42, logger.Entries[0].EventId.Id);
+        Assert.Equal(LogLevel.Debug, logger.Entries[0].Level);
+
+    }
+
     private static void AssertLogEntry(TestLogEntry entry, LogLevel level, int eventId, string message, Exception? exception)
     {
         Assert.Equal(level, entry.Level);
@@ -158,6 +213,38 @@ public class LoggableBaseTests
         public bool IsEnabled(LogLevel logLevel)
         {
             return true;
+        }
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+        {
+            string message = formatter(state, exception);
+            Entries.Add(new TestLogEntry(logLevel, eventId, message, exception));
+        }
+
+        private sealed class NoopScope : IDisposable
+        {
+            public static NoopScope Instance { get; } = new();
+
+            public void Dispose()
+            {
+            }
+        }
+    }
+
+    private sealed class LevelControlledTestLogger(IEnumerable<LogLevel> enabledLevels) : ILogger
+    {
+        private readonly HashSet<LogLevel> _enabledLevels = [.. enabledLevels];
+
+        public List<TestLogEntry> Entries { get; } = [];
+
+        public IDisposable BeginScope<TState>(TState state) where TState : notnull
+        {
+            return NoopScope.Instance;
+        }
+
+        public bool IsEnabled(LogLevel logLevel)
+        {
+            return _enabledLevels.Contains(logLevel);
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)

@@ -294,6 +294,309 @@ public class TextFileLogTests
     }
 
     /// <summary>
+    /// Tests that logging with <see cref="LogLevel.None"/> does not write output.
+    /// </summary>
+    [Fact]
+    public void Log_Does_Not_Write_When_LogLevel_Is_None()
+    {
+        string fileName = CreateTempFileName();
+        try
+        {
+            using (TextFileLog log = new(fileName))
+            {
+                log.UseDatePrefix = false;
+                log.Log(LogLevel.None, "none message", null, static (state, _) => state);
+            }
+
+            string[] lines = File.ReadAllLines(fileName);
+            Assert.Empty(lines);
+        }
+        finally
+        {
+            DeleteFileIfExists(fileName);
+        }
+    }
+
+    /// <summary>
+    /// Tests that the formatter is not invoked when the selected log level is disabled.
+    /// </summary>
+    [Fact]
+    public void Log_Does_Not_Invoke_Formatter_When_Level_Is_Disabled()
+    {
+        string fileName = CreateTempFileName();
+        try
+        {
+            using (TextFileLog log = new(fileName))
+            {
+                log.UseDatePrefix = false;
+                log.DebugEnabled = false;
+                bool formatterInvoked = false;
+
+                log.Log(LogLevel.Debug, "state", null, (state, _) =>
+                {
+                    formatterInvoked = true;
+                    return state;
+                });
+
+                Assert.False(formatterInvoked);
+            }
+        }
+        finally
+        {
+            DeleteFileIfExists(fileName);
+        }
+    }
+
+    /// <summary>
+    /// Tests that the event-id overload formats using the event name when a name is provided.
+    /// </summary>
+    [Fact]
+    public void Log_With_Named_EventId_Writes_Event_Name_Prefix()
+    {
+        string fileName = CreateTempFileName();
+        try
+        {
+            using (TextFileLog log = new(fileName))
+            {
+                log.UseDatePrefix = false;
+                EventId eventId = new(22, "NamedEvent");
+                log.Log(LogLevel.Information, eventId, "named event message", null, static (state, _) => state);
+            }
+
+            string[] lines = File.ReadAllLines(fileName);
+            Assert.Single(lines);
+            Assert.Equal("NamedEvent: named event message", lines[0]);
+        }
+        finally
+        {
+            DeleteFileIfExists(fileName);
+        }
+    }
+
+    /// <summary>
+    /// Tests that each scope request returns a non-null, independent scope instance.
+    /// </summary>
+    [Fact]
+    public void BeginScope_Returns_New_Scope_Instance_Each_Time()
+    {
+        string fileName = CreateTempFileName();
+        try
+        {
+            using TextFileLog log = new(fileName);
+
+            using IDisposable? first = log.BeginScope("scope-1");
+            using IDisposable? second = log.BeginScope("scope-2");
+
+            Assert.NotNull(first);
+            Assert.NotNull(second);
+            Assert.IsType<NullScope>(first);
+            Assert.IsType<NullScope>(second);
+            Assert.NotSame(first, second);
+        }
+        finally
+        {
+            DeleteFileIfExists(fileName);
+        }
+    }
+
+    /// <summary>
+    /// Tests that logger construction gracefully handles an invalid path by disabling logging.
+    /// </summary>
+    [Fact]
+    public void Constructor_With_Invalid_Path_Disables_Logging()
+    {
+        string fileName = "\0invalid.log";
+        using TextFileLog log = new(fileName);
+
+        Assert.Equal(fileName, log.FileName);
+        Assert.False(log.IsEnabled(LogLevel.Information));
+        Assert.False(log.IsEnabled(LogLevel.Error));
+    }
+
+    [Fact]
+    public void Critical_Property_Works()
+    {
+        string fileName = CreateTempFileName();
+        using TextFileLog log = new(fileName);
+
+        log.CriticalEnabled = false;
+        Assert.False(log.CriticalEnabled);
+        log.LogCritical("This should not be logged.");
+        log.Dispose();
+
+        string text = ReadLogContents(fileName);
+
+        Assert.DoesNotContain("This should not be logged.", text);
+
+        using TextFileLog log2 = new(fileName);
+        log2.CriticalEnabled = true;
+        Assert.True(log2.CriticalEnabled);
+        log2.LogCritical("This should be logged.");
+        log2.Dispose();
+
+        text = ReadLogContents(fileName);
+        Assert.Contains("This should be logged.", text);
+    }
+
+    [Fact]
+    public void Debug_Property_Works()
+    {
+        string fileName = CreateTempFileName();
+        using TextFileLog log = new(fileName);
+
+        log.DebugEnabled = false;
+        Assert.False(log.DebugEnabled);
+        log.LogDebug("This should not be logged.");
+        log.Dispose();
+
+        string text = ReadLogContents(fileName);
+
+        Assert.DoesNotContain("This should not be logged.", text);
+
+        using TextFileLog log2 = new(fileName);
+        log2.DebugEnabled = true;
+        Assert.True(log2.DebugEnabled);
+        log2.LogDebug("This should be logged.");
+        log2.Dispose();
+
+        text = ReadLogContents(fileName);
+        Assert.Contains("This should be logged.", text);
+    }
+
+    [Fact]
+    public void Error_Property_Works()
+    {
+        string fileName = CreateTempFileName();
+        using TextFileLog log = new(fileName);
+
+        log.ErrorEnabled = false;
+        Assert.False(log.ErrorEnabled);
+        log.LogError("This should not be logged.");
+        log.Dispose();
+
+        string text = ReadLogContents(fileName);
+
+        Assert.DoesNotContain("This should not be logged.", text);
+
+        using TextFileLog log2 = new(fileName);
+        log2.ErrorEnabled = true;
+        Assert.True(log2.ErrorEnabled);
+        log2.LogError("This should be logged.");
+        log2.Dispose();
+
+        text = ReadLogContents(fileName);
+        Assert.Contains("This should be logged.", text);
+    }
+
+    [Fact]
+    public void Information_Property_Works()
+    {
+        string fileName = CreateTempFileName();
+        using TextFileLog log = new(fileName);
+
+        log.InformationEnabled = false;
+        Assert.False(log.InformationEnabled);
+        log.LogInformation("This should not be logged.");
+        log.Dispose();
+
+        string text = ReadLogContents(fileName);
+
+        Assert.DoesNotContain("This should not be logged.", text);
+
+        using TextFileLog log2 = new(fileName);
+        log2.InformationEnabled = true;
+        Assert.True(log2.InformationEnabled);
+        log2.LogInformation("This should be logged.");
+        log2.Dispose();
+
+        text = ReadLogContents(fileName);
+        Assert.Contains("This should be logged.", text);
+    }
+
+    [Fact]
+    public void Trace_Property_Works()
+    {
+        string fileName = CreateTempFileName();
+        using TextFileLog log = new(fileName);
+
+        log.TraceEnabled = false;
+        Assert.False(log.TraceEnabled);
+        log.LogTrace("This should not be logged.");
+        log.Dispose();
+
+        string text = ReadLogContents(fileName);
+
+        Assert.DoesNotContain("This should not be logged.", text);
+
+        using TextFileLog log2 = new(fileName);
+        log2.TraceEnabled = true;
+        Assert.True(log2.TraceEnabled);
+        log2.LogTrace("This should be logged.");
+        log2.Dispose();
+
+        text = ReadLogContents(fileName);
+        Assert.Contains("This should be logged.", text);
+    }
+
+    [Fact]
+    public void Warning_Property_Works()
+    {
+        string fileName = CreateTempFileName();
+        using TextFileLog log = new(fileName);
+
+        log.WarningEnabled = false;
+        Assert.False(log.WarningEnabled);   
+        log.LogWarning("This should not be logged.");
+        log.Dispose();
+
+        string text = ReadLogContents(fileName);
+
+        Assert.DoesNotContain("This should not be logged.", text);
+
+        using TextFileLog log2 = new(fileName);
+        log2.WarningEnabled = true;
+        Assert.True(log2.WarningEnabled);
+        log2.LogWarning("This should be logged.");
+        log2.Dispose();
+
+        text = ReadLogContents(fileName);
+        Assert.Contains("This should be logged.", text);
+    }
+
+    [Fact]
+    public void DatePrefix_Property_Works()
+    {
+        string fileName = CreateTempFileName();
+        using TextFileLog log = new(fileName);
+
+        log.UseDatePrefix = false;
+        Assert.False(log.UseDatePrefix);
+        log.LogWarning("This should not be preceeded by a date value.");
+        log.Dispose();
+
+        string text = ReadLogContents(fileName);
+        int index = text.IndexOf(" ");
+        string datestring = text.Substring( 0, index).Trim();
+        bool isADate = DateTime.TryParse(datestring, out _);
+        Assert.False(isADate);
+        Assert.Contains("This should not be preceeded by a date value.", text);
+
+        using TextFileLog log2 = new(fileName);
+        log2.UseDatePrefix = true;
+        Assert.True(log2.UseDatePrefix);
+        log2.LogWarning("This should be preceeded by a date value.");
+        log2.Dispose();
+
+        text = ReadLogContents(fileName);
+        int index2 = text.IndexOf(" ");
+        string datestring2 = text.Substring(0, index2).Trim();
+        bool isADate2 = DateTime.TryParse(datestring2, out _);
+        Assert.True(isADate2);
+        Assert.Contains("This should be preceeded by a date value.", text);
+
+    }
+
+    /// <summary>
     /// Creates a unique temporary file name for an isolated test log file.
     /// </summary>
     /// <returns>
@@ -316,5 +619,16 @@ public class TextFileLogTests
         {
             File.Delete(fileName);
         }
+    }
+
+    private static string ReadLogContents(string fileName)
+    {
+        FileStream fs = new(fileName, FileMode.Open, FileAccess.Read);
+        StreamReader r = new(fs);
+        string text = r.ReadToEnd();
+        r.Dispose();
+        fs.Dispose();
+        File.Delete(fileName);
+        return text;
     }
 }

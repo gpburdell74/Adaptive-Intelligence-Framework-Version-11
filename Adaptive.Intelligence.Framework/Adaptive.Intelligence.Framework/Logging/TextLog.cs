@@ -6,9 +6,9 @@ using System.Text;
 namespace Adaptive.Intelligence.Logging
 {
     /// <summary>
-    /// Provides a simple mechanism for logging information to a log file.
+    /// Provides a simple mechanism for logging information in text format to a file, stream, or other destination.
     /// </summary>
-    public class TextFileLog : DisposableObjectBase, ILogger
+    public class TextLog : DisposableObjectBase, ILogger
     {
         #region Private Member Declarations
         /// <summary>
@@ -34,24 +34,28 @@ namespace Adaptive.Intelligence.Logging
         /// <summary>
         /// Destination stream instance.
         /// </summary>
-        private FileStream? _destinationStream;
+        private Stream? _destinationStream;
         /// <summary>
         /// The text writer to use.
         /// </summary>
-        private StreamWriter? _writer;
+        private TextWriter? _writer;
         #endregion
 
         #region Constructor / Dispose Methods
         /// <summary>
         /// Initializes a new instance of the <see cref="TextFileLog"/> class with the specified log file name.
         /// </summary>
-        /// <param name="fileName">
-        /// A string containing the fully-qualified path and name of the log file to write to. If the file does not exist, 
-        /// it will be created; if it does exist, new log entries will be appended to the end of the file.
+        /// <param name="destinationStream">
+        /// The stream to write log entries to.
         /// </param>
-        public TextFileLog(string fileName)
+        /// <param name="textWriter">
+        /// The text writer to use for writing log entries.
+        /// </param>
+        public TextLog(Stream destinationStream, TextWriter textWriter)
         {
-            _fileName = fileName;
+            _destinationStream = destinationStream;
+            _writer = textWriter;
+            
             CreateStreamObjects();
         }
 
@@ -76,6 +80,19 @@ namespace Adaptive.Intelligence.Logging
         #endregion
 
         #region Public Properties
+        /// <summary>
+        /// Gets a value indicating whether the log can write to the destination stream.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the log can write to the destination stream; otherwise, <c>false</c>.
+        /// </value>
+        public bool CanWrite
+        {
+            get
+            {
+                return (_destinationStream != null && _destinationStream.CanWrite && _writer != null);
+            }
+        }
         /// <summary>
         /// Gets or sets a value indicating whether the Critical log level is enabled.
         /// </summary>
@@ -134,7 +151,7 @@ namespace Adaptive.Intelligence.Logging
                 return false;
             }
 
-            switch(logLevel)
+            switch (logLevel)
             {
                 case LogLevel.Critical:
                     isSupported = _criticalEnabled;
@@ -302,7 +319,7 @@ namespace Adaptive.Intelligence.Logging
                     _destinationStream = new FileStream(_fileName, mode, FileAccess.Write, FileShare.Read);
                     _writer = new StreamWriter(_destinationStream);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     System.Diagnostics.Trace.WriteLine(ex.Message);
                     _writer = null;
@@ -312,8 +329,14 @@ namespace Adaptive.Intelligence.Logging
         }
 
         /// <summary>
-        /// Closes the file stream and writer instances.
+        /// Releses the references to the user-provided <see cref="Stream"/> amd <see cref="TextWriter"/>
+        /// instances. 
         /// </summary>
+        /// <remarks>
+        /// We do not close or dispose of the user-provided stream and writer instances, as they may be used elsewhere 
+        /// in the application. Instead, we simply release our references to them, allowing the garbage collector to 
+        /// reclaim their memory when they are no longer in use.
+        /// </remarks>
         private void CloseStreamObjects()
         {
             if (_writer != null)
@@ -321,10 +344,8 @@ namespace Adaptive.Intelligence.Logging
                 try
                 {
                     _writer.Flush();
-                    _writer.Close();
-                    _writer.Dispose();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     System.Diagnostics.Trace.TraceError(ex.Message);
                 }
@@ -334,10 +355,8 @@ namespace Adaptive.Intelligence.Logging
                 try
                 {
                     _destinationStream.Flush();
-                    _destinationStream.Close();
-                    _destinationStream.Dispose();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     System.Diagnostics.Trace.TraceError(ex.Message);
                 }
@@ -362,6 +381,7 @@ namespace Adaptive.Intelligence.Logging
                     lock (_syncRoot)
                     {
                         _writer.WriteLine(builder.ToString());
+                        _writer.Flush();
                     }
                 }
                 catch (Exception ex)

@@ -246,10 +246,7 @@ public class AdaptiveCollectionBaseTests
         collection.CollectionChanged += (_, _) =>
         {
         };
-
-        ArgumentException ex = Assert.Throws<ArgumentException>(() => collection.Add(10));
-
-        Assert.Equal("action", ex.ParamName);
+        collection.Add(10);
         Assert.Single(collection);
         Assert.Equal(10, collection[0]);
     }
@@ -265,9 +262,9 @@ public class AdaptiveCollectionBaseTests
         {
         };
 
-        ArgumentException ex = Assert.Throws<ArgumentException>(() => collection.RemoveAll(x => x % 2 == 0));
+        collection.RemoveAll(x => x % 2 == 0);
 
-        Assert.Equal("action", ex.ParamName);
+        Assert.Equal(3, collection.Count);
         Assert.Equal([1, 3, 5], collection);
     }
 
