@@ -1,4 +1,4 @@
-﻿using Adaptive.Intelligence.Common.Abstractions;
+using Adaptive.Intelligence.Abstractions;
 
 namespace Adaptive.Intelligence.Logging
 {

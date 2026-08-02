@@ -1,4 +1,4 @@
-﻿using Adaptive.Intelligence.Common.Abstractions;
+using Adaptive.Intelligence.Abstractions;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Text;
@@ -20,11 +20,29 @@ namespace Adaptive.Intelligence.Logging
         /// Enabling / disabling log levels.
         /// </summary>
         private bool _traceEnabled = true;
+        /// <summary>
+        /// Gets the definition for _debugEnabled.
+        /// </summary>
         private bool _debugEnabled = true;
+        /// <summary>
+        /// Gets the definition for _informationEnabled.
+        /// </summary>
         private bool _informationEnabled = true;
+        /// <summary>
+        /// Gets the definition for _warningEnabled.
+        /// </summary>
         private bool _warningEnabled = true;
+        /// <summary>
+        /// Gets the definition for _errorEnabled.
+        /// </summary>
         private bool _errorEnabled = true;
+        /// <summary>
+        /// Gets the definition for _criticalEnabled.
+        /// </summary>
         private bool _criticalEnabled = true;
+        /// <summary>
+        /// Gets the definition for _useDatePrefix.
+        /// </summary>
         private bool _useDatePrefix = true;
 
         /// <summary>
@@ -55,7 +73,7 @@ namespace Adaptive.Intelligence.Logging
         {
             _destinationStream = destinationStream;
             _writer = textWriter;
-            
+
             CreateStreamObjects();
         }
 
@@ -86,13 +104,7 @@ namespace Adaptive.Intelligence.Logging
         /// <value>
         /// <c>true</c> if the log can write to the destination stream; otherwise, <c>false</c>.
         /// </value>
-        public bool CanWrite
-        {
-            get
-            {
-                return (_destinationStream != null && _destinationStream.CanWrite && _writer != null);
-            }
-        }
+        public bool CanWrite => _destinationStream != null && _destinationStream.CanWrite && _writer != null;
         /// <summary>
         /// Gets or sets a value indicating whether the Critical log level is enabled.
         /// </summary>
