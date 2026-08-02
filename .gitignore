@@ -27,3 +27,5 @@
 *.AssemblyInfoInputs.cache
 *.CoreCompileInputs.cache
 *.DocumentLayout.json
+/_add_xml_docs_tests_safe.ps1
+/_add_xml_docs_tests.ps1

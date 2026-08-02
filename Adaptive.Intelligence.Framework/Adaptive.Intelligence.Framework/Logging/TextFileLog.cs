@@ -1,4 +1,4 @@
-﻿using Adaptive.Intelligence.Common.Abstractions;
+using Adaptive.Intelligence.Abstractions;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Text;
@@ -20,11 +20,30 @@ namespace Adaptive.Intelligence.Logging
         /// Enabling / disabling log levels.
         /// </summary>
         private bool _traceEnabled = true;
+
+        /// <summary>
+        /// Gets the definition for _debugEnabled.
+        /// </summary>
         private bool _debugEnabled = true;
+        /// <summary>
+        /// Gets the definition for _informationEnabled.
+        /// </summary>
         private bool _informationEnabled = true;
+        /// <summary>
+        /// Gets the definition for _warningEnabled.
+        /// </summary>
         private bool _warningEnabled = true;
+        /// <summary>
+        /// Gets the definition for _errorEnabled.
+        /// </summary>
         private bool _errorEnabled = true;
+        /// <summary>
+        /// Gets the definition for _criticalEnabled.
+        /// </summary>
         private bool _criticalEnabled = true;
+        /// <summary>
+        /// Gets the definition for _useDatePrefix.
+        /// </summary>
         private bool _useDatePrefix = true;
 
         /// <summary>
@@ -134,7 +153,7 @@ namespace Adaptive.Intelligence.Logging
                 return false;
             }
 
-            switch(logLevel)
+            switch (logLevel)
             {
                 case LogLevel.Critical:
                     isSupported = _criticalEnabled;
@@ -302,7 +321,7 @@ namespace Adaptive.Intelligence.Logging
                     _destinationStream = new FileStream(_fileName, mode, FileAccess.Write, FileShare.Read);
                     _writer = new StreamWriter(_destinationStream);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     System.Diagnostics.Trace.WriteLine(ex.Message);
                     _writer = null;
@@ -324,7 +343,7 @@ namespace Adaptive.Intelligence.Logging
                     _writer.Close();
                     _writer.Dispose();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     System.Diagnostics.Trace.TraceError(ex.Message);
                 }
@@ -337,7 +356,7 @@ namespace Adaptive.Intelligence.Logging
                     _destinationStream.Close();
                     _destinationStream.Dispose();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     System.Diagnostics.Trace.TraceError(ex.Message);
                 }

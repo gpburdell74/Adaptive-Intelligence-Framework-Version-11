@@ -1,5 +1,3 @@
-﻿using System.Text.Json.Serialization;
-
 namespace Adaptive.Intelligence.IO
 {
     /// <summary>
@@ -33,7 +31,7 @@ namespace Adaptive.Intelligence.IO
                     while (File.Exists(test))
                     {
                         counter++;
-                        test = Path.Combine( path, name + counter + ext);
+                        test = Path.Combine(path, name + counter + ext);
                     }
                     finalName = Path.Combine(path, name + counter + ext);
                 }
@@ -53,13 +51,19 @@ namespace Adaptive.Intelligence.IO
             {
                 try
                 {
-                    FileStream stream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write);
-                    stream.Close();
-                    stream.Dispose();
+                    using FileStream stream = new(fileName, FileMode.CreateNew, FileAccess.Write);
                 }
-                catch
+                catch (UnauthorizedAccessException ex)
                 {
-
+                    System.Diagnostics.Trace.TraceError($"Unable to create file '{fileName}': {ex}");
+                }
+                catch (IOException ex)
+                {
+                    System.Diagnostics.Trace.TraceError($"I/O error while creating file '{fileName}': {ex}");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError($"Unexpected error while creating file '{fileName}': {ex}");
                 }
             }
         }

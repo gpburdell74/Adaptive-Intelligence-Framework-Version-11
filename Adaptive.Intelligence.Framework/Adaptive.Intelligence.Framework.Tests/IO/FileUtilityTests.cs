@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
@@ -12,11 +12,14 @@ namespace Adaptive.Intelligence.Framework.Tests.IO
     public class FileUtilityTests
     {
         [Fact]
+        /// <summary>
+        /// Gets the definition for Touch_Works.
+        /// </summary>
         public void Touch_Works()
         {
             string path = Path.GetTempPath();
             string fileName = Guid.NewGuid().ToString().Replace("-", "");
-            string fileName2 = fileName + "_2.txt"; 
+            string fileName2 = fileName + "_2.txt";
             string fileName3 = fileName + "_3.txt";
             string fileName4 = fileName + "_4.txt";
             fileName += ".txt";
@@ -35,7 +38,7 @@ namespace Adaptive.Intelligence.Framework.Tests.IO
             Assert.NotNull(info);
             Assert.Equal(0, info.Length);
 
-             info = new FileInfo(path + fileName2);
+            info = new FileInfo(path + fileName2);
             Assert.NotNull(info);
             Assert.Equal(0, info.Length);
 
@@ -54,13 +57,16 @@ namespace Adaptive.Intelligence.Framework.Tests.IO
         }
 
         [Fact]
+        /// <summary>
+        /// Gets the definition for Ensure_Unique_FileName_Works.
+        /// </summary>
         public void Ensure_Unique_FileName_Works()
         {
             string path = Path.GetTempPath();
             string baseFileName = "MyFile";
             string ext = ".log";
-            
-                string[] fileNames = { "MyFile.log", "MyFile1.log", "MyFile2.log" };
+
+            string[] fileNames = ["MyFile.log", "MyFile1.log", "MyFile2.log"];
 
             FileUtility.Touch(path + fileNames[0]);
             FileUtility.Touch(path + fileNames[1]);

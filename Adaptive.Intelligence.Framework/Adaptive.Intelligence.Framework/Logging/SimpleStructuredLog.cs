@@ -1,5 +1,5 @@
-﻿using Adaptive.Intelligence.Common.Abstractions;
-using Adaptive.Intelligence.Common.Abstractions.Logging;
+using Adaptive.Intelligence.Abstractions;
+using Adaptive.Intelligence.Abstractions.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace Adaptive.Intelligence.Logging
@@ -25,7 +25,7 @@ namespace Adaptive.Intelligence.Logging
         /// </remarks>
         public SimpleStructuredLog()
         {
-            _recordCollection = new();
+            _recordCollection = [];
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace Adaptive.Intelligence.Logging
         {
             if (_recordCollection != null)
             {
-                SimpleLogRecord newRecord = new SimpleLogRecord
+                SimpleLogRecord newRecord = new()
                 {
-                    Date = DateTime.UtcNow,
+                    LogDate = DateTime.UtcNow,
                     LogEvent = eventId,
                 };
                 if (exception != null)
@@ -110,7 +110,7 @@ namespace Adaptive.Intelligence.Logging
                     case LogLevel.Warning:
                         newRecord.IsSuccess = true;
                         newRecord.IsError = false;
-                        newRecord.InformationMessage = (state?.ToString() ?? string.Empty);
+                        newRecord.InformationMessage = state?.ToString() ?? string.Empty;
                         break;
                 }
                 _recordCollection.Add(newRecord);
