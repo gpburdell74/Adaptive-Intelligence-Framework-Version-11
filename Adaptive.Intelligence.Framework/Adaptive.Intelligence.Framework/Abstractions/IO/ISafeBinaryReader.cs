@@ -1,7 +1,7 @@
 ﻿namespace Adaptive.Intelligence.Abstractions.IO
 {
     /// <summary>
-    /// Provides the signature definition for binary reader instances that safely track thier own exceptions.
+    /// Provides the signature definition for binary reader instances that safely track their own exceptions.
     /// </summary>
     /// <seealso cref="IDisposable" />
     /// <seealso cref="IAsyncDisposable" />
@@ -10,12 +10,10 @@
     {
         #region Properties
         /// <summary>
-        /// Returns the stream associated with the writer. It flushes all pending 
-        /// writes before returning. All subclasses should override Flush to
-        /// ensure that all buffered data is sent to the stream.
+        /// Returns the stream associated with the writer.
         /// </summary>
         /// <value>
-        /// The underlying <see cref="Stream"/> that is being written to.
+        /// The underlying <see cref="Stream"/> that is being read from.
         /// </value>
         Stream? BaseStream { get; }
 
@@ -39,7 +37,7 @@
         #region Methods / Functions
         /// <summary>
         /// Closes this reader and releases any system resources associated with the
-        /// writer. Following a call to Close, any operations on the reader
+        /// reader. Following a call to Close, any operations on the reader
         /// may raise exceptions.
         /// </summary>
         void Close();
@@ -70,7 +68,10 @@
         /// <param name="numberOfBytes">
         /// An integer specifying the number of bytes to be read.
         /// </param>
-        void Read(byte[] buffer, int startIndex, int numberOfBytes);
+        /// <returns>
+        /// The actual number of bytest that were read.
+        /// </returns>
+        int Read(byte[] buffer, int startIndex, int numberOfBytes);
 
         /// <summary>
         /// Reads the next boolean value from the <see cref="Stream"/>.

@@ -13,13 +13,13 @@
         /// The reference to the <see cref="IKeyTable"/> implementation.
         /// </param>
         void InitializeKeys(IKeyTable keyTable);
+
         /// <summary>
-        /// Reads and decrypts the content from the original source and writes the clear content to 
-        /// the provided stream.
+        /// Reads and decrypts the content from the original source stream.
         /// </summary>
-        /// <param name="destinationStream">
-        /// The source <see cref="Stream"/> to which the decrypted data is to be written.
+        /// <param name="sourceStream">
+        /// The source <see cref="Stream"/> from which the decrypted data is to be read.
         /// </param>
-        void ReadStream(Stream destinationStream);
+        void ReadStream(Stream sourceStream);
     }
 }

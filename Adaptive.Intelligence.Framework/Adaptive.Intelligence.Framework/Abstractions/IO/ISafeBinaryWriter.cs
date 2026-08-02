@@ -18,6 +18,7 @@
         /// The underlying <see cref="Stream"/> that is being written to.
         /// </value>
         Stream? BaseStream { get; }
+
         /// <summary>
         /// Gets a value indicating whether this instance can write data.
         /// </summary>
@@ -25,6 +26,7 @@
         ///   <c>true</c> if this instance can write to an underlying stream; otherwise, <c>false</c>.
         /// </value>
         bool CanWrite { get; }
+
         /// <summary>
         /// Gets the reference to the underlying binary writer instance.
         /// </summary>
@@ -121,51 +123,61 @@
         /// The <see cref="DateTime"/> value to be written.
         /// </param>
         void Write(DateTime dateTime);
+
         /// <summary>
         /// Writes a double to this stream. The current position of the stream is
         /// advanced by eight.
         /// </summary>
         void Write(double value);
+
         /// <summary>
-        /// Writes a two-byte signed integer to this stream. The current position of
-        /// the stream is advanced by two.  
+        /// Writes a (16) sixteen-byte signed integer to this stream. The current position of
+        /// the stream is advanced by sixteen (16).  
         /// </summary>
         void Write(decimal value);
+
         /// <summary>
         /// Writes a two-byte signed integer to this stream. The current position
         /// of the stream is advanced by two.
         /// </summary>
         void Write(short value);
+
         /// <summary>
         /// Writes a two-byte unsigned integer to this stream. The current position
         /// of the stream is advanced by two.
         /// </summary>
         void Write(ushort value);
+
         /// <summary>
         /// Writes a four-byte signed integer to this stream. The current position
         /// of the stream is advanced by four.
         /// </summary>
         void Write(int value);
+
         /// <summary>
         /// Writes a four-byte unsigned integer to this stream. The current position
         /// of the stream is advanced by four.
         /// </summary>
         void Write(uint value);
+
         /// <summary>
         /// Writes an eight-byte signed integer to this stream. The current position
         /// of the stream is advanced by eight.
         /// </summary>
         void Write(long value);
+
         /// <summary>
         /// Writes an eight-byte unsigned integer to this stream. The current
         /// position of the stream is advanced by eight.
         /// </summary>
         void Write(ulong value);
+
         /// <summary>
         /// Writes a float to this stream. The current position of the stream is
         /// advanced by four.
         /// </summary>
         void Write(float value);
+
         /// <summary>
         /// Writes a half to this stream. The current position of the stream is
         /// advanced by two.
@@ -182,7 +194,7 @@
         void Write(string? value);
 
         /// <summary>
-        /// Writes a bolean value indicating whether the data is null, and then, if not null,
+        /// Writes a boolean value indicating whether the data is null, and then, if not null,
         /// writes a length-prefixed string to this stream in the <see cref="BinaryWriter"/>'s
         /// current Encoding. This method first writes the length of the string as
         /// an encoded unsigned integer with variable length, and then writes that many characters
@@ -190,6 +202,7 @@
         /// </summary>
         /// <param name="value">The value to be written.</param>
         void WriteNullable(string? value);
+
         /// <summary>
         /// Writes the content of the read-only span of bytes to the stream.
         /// </summary>
@@ -197,6 +210,7 @@
         /// The <see cref="ReadOnlySpan{T}"/> of <see cref="byte"/> containing the data to be written.
         /// </param>
         void Write(ReadOnlySpan<byte> buffer);
+
         /// <summary>
         /// Writes the content of the read-only span of chars to the stream.
         /// </summary>
@@ -204,6 +218,7 @@
         /// The <see cref="ReadOnlySpan{T}"/> of <see cref="char"/> containing the data to be written.
         /// </param>
         void Write(ReadOnlySpan<char> chars);
+
         /// <summary>
         /// Writes the byte array to the stream.
         /// </summary>
@@ -215,6 +230,7 @@
         /// A byte array containing the data to be written, or <b>null</b>.
         /// </param>
         void WriteByteArray(byte[]? data);
+
         /// <summary>
         /// Writes the integer to the stream as a 7-bit encoded value.
         /// </summary>
@@ -222,6 +238,7 @@
         /// The <see cref="int"/> containing the data to be written.
         /// </param>
         void Write7BitEncodedInt(int value);
+
         /// <summary>
         /// Writes the long integer to the stream as a 7-bit encoded value.
         /// </summary>
