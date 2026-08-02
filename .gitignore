@@ -34,3 +34,5 @@
 /_add_xml_docs_tests_safe.ps1
 /Adaptive.Intelligence.Framework/.vs/Adaptive.Intelligence.Framework.slnx/FileContentIndex
 /Adaptive.Intelligence.Framework/.vs/Adaptive.Intelligence.Framework.slnx/v18/DocumentLayout.json
+/Adaptive.Intelligence.Framework/Adaptive.Intelligence.Framework/obj/x64/Debug/net11.0/Adaptive.Intelligence.Framework.assets.cache
+/.gitignore
