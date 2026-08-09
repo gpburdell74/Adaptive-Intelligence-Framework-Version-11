@@ -215,11 +215,11 @@ namespace Adaptive.Intelligence.Common
         }
         /// <summary>
         /// Copies the elements of the <see cref="CaseInsensitiveStringDictionary{T}"/> to an
-        /// <see cref="System.Array" />, starting at a particular <see cref="System.Array" /> index.
+        /// <see cref="Array" />, starting at a particular <see cref="Array" /> index.
         /// </summary>
         /// <param name="array">
-        /// The one-dimensional <see cref="System.Array" /> that is the destination of the elements copied from
-        /// <see cref="CaseInsensitiveStringDictionary{T}"/>. The <see cref="System.Array" /> must have zero-based
+        /// The one-dimensional <see cref="Array" /> that is the destination of the elements copied from
+        /// <see cref="CaseInsensitiveStringDictionary{T}"/>. The <see cref="Array" /> must have zero-based
         /// indexing.
         /// </param>
         /// <param name="arrayIndex">

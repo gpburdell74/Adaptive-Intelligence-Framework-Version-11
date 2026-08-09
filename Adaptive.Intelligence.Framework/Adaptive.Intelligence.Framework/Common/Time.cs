@@ -839,7 +839,7 @@ namespace Adaptive.Intelligence.Common
         /// </summary>
         /// <param name="timeValue">The time value.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// Occurs if no delimiters are found in the string.
         /// </exception>
         private static int FindFirstDelimiter(string timeValue)

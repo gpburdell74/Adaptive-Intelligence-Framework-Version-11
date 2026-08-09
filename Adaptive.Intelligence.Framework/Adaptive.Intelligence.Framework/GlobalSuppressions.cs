@@ -13,3 +13,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Style", "IDE0008:Use explicit type", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "~N:Adaptive.Intelligence")]
 [assembly: SuppressMessage("Style", "IDE0045:Convert to conditional expression", Justification = "Makes code unreadable", Scope = "namespaceanddescendants", Target = "~N:Adaptive.Intelligence")]
 [assembly: SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Makes code unreadable", Scope = "namespaceanddescendants", Target = "~N:Adaptive.Intelligence")]
+[assembly: SuppressMessage("Style", "CA1711", Justification = "Not my code style.", Scope = "namespaceanddescendants", Target = "~N:Adaptive.Intelligence")]

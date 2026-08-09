@@ -293,7 +293,7 @@ namespace Adaptive.Intelligence.Converters
                 { FileExtensionConstants.ExtTemporaryFile, FileFormats.TemporaryFile},
             };
 
-            return dictionary.ToFrozenDictionary<string, FileFormats>();
+            return dictionary.ToFrozenDictionary();
         }
         #endregion
     }

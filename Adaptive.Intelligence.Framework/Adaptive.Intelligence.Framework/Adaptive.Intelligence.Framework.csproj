@@ -57,7 +57,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\AmEx.jpg" />
+    <None Remove="Resources\China Union Pay.jpg" />
+    <None Remove="Resources\Diners Club.jpg" />
+    <None Remove="Resources\Discover.jpg" />
+    <None Remove="Resources\Generic Card.jpg" />
+    <None Remove="Resources\Maestro.png" />
+    <None Remove="Resources\MasterCard.jpg" />
+    <None Remove="Resources\Visa.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="AI.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\AmEx.jpg" />
+    <EmbeddedResource Include="Resources\China Union Pay.jpg" />
+    <EmbeddedResource Include="Resources\Diners Club.jpg" />
+    <EmbeddedResource Include="Resources\Discover.jpg" />
+    <EmbeddedResource Include="Resources\Generic Card.jpg" />
+    <EmbeddedResource Include="Resources\Maestro.png" />
+    <EmbeddedResource Include="Resources\MasterCard.jpg" />
+    <EmbeddedResource Include="Resources\Visa.jpg" />
   </ItemGroup>
 
   <ItemGroup>
