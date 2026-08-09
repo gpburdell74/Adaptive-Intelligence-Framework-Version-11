@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides the signature definition for a cryptographic Key table.
     /// </summary>
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="IDisposable" />
     public interface IKeyTable : IDisposable
     {
         #region Properties		
