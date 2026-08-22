@@ -91,7 +91,7 @@
             sourceStream.Seek(0, SeekOrigin.Begin);
             SafeBinaryReader reader = new(sourceStream);
             int recordCount = reader.ReadInt32();
-            if (recordCount > -1 && recordCount < 25000)
+            if (recordCount is > -1 and < 25000)
             {
                 // Load each record.
                 for (int count = 0; count < recordCount; count++)

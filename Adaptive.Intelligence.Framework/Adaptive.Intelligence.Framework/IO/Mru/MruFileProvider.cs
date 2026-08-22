@@ -158,7 +158,7 @@ namespace Adaptive.Intelligence.IO.Mru
         {
             if (!IsDisposed)
             {
-                _entries ??= new MruFileEntryList();
+                _entries ??= [];
                 if (entry is MruFileEntry fileEntry)
                 {
                     _entries.Add(fileEntry);

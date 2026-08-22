@@ -159,7 +159,7 @@ namespace Adaptive.Intelligence.Financial
                     }
                     else
                     {
-                        matches = (v >= min && v <= max);
+                        matches = v >= min && v <= max;
                     }
                 }
             }
