@@ -357,7 +357,9 @@ namespace Adaptive.Intelligence.Security
         public byte[]? SerializePrivateKey()
         {
             if (_provider is null)
+            {
                 return null;
+            }
 
             try
             {
@@ -378,7 +380,9 @@ namespace Adaptive.Intelligence.Security
         public void SetPrivateKey(byte[] keyData)
         {
             if (_provider is null || keyData is null || keyData.Length == 0)
+            {
                 return;
+            }
 
             ClearKeyMemory();
 
@@ -386,7 +390,9 @@ namespace Adaptive.Intelligence.Security
             {
                 _provider.ImportRSAPrivateKey(keyData, out int bytesRead);
                 if (bytesRead != keyData.Length)
+                {
                     throw new CryptographicException("Invalid RSA private key payload.");
+                }
 
                 _currentKey = _provider.ExportParameters(true);
             }

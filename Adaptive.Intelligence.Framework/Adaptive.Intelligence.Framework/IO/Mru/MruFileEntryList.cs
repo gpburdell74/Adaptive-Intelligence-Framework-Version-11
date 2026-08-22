@@ -105,7 +105,7 @@
         /// </returns>
         public bool ContainsFile(string pathAndFileName)
         {
-            MruFileEntry? entry = this.FirstOrDefault(x => string.Compare(x.FileName, pathAndFileName, StringComparison.OrdinalIgnoreCase) == 0);
+            MruFileEntry? entry = this.FirstOrDefault(x => string.Equals(x.FileName, pathAndFileName, StringComparison.OrdinalIgnoreCase));
             return entry != null;
         }
 
@@ -117,7 +117,7 @@
         /// </param>
         public void RemoveFile(string pathAndFileName)
         {
-            MruFileEntry? entry = this.FirstOrDefault(x => string.Compare(x.FileName, pathAndFileName, StringComparison.OrdinalIgnoreCase) == 0);
+            MruFileEntry? entry = this.FirstOrDefault(x => string.Equals(x.FileName, pathAndFileName, StringComparison.OrdinalIgnoreCase));
             if (entry != null)
             {
                 Remove(entry);
