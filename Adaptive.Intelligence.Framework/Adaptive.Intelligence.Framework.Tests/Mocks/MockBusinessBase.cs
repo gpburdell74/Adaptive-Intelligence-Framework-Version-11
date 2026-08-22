@@ -149,7 +149,9 @@ namespace Adaptive.Intelligence.Framework.Tests.Mocks
         /// <param name="propertyName">
         /// The name of the property that changed.
         /// </param>
+#pragma warning disable CA1030 // Use events where appropriate
         public void RaisePropertyChangedForTest(string? propertyName)
+#pragma warning restore CA1030 // Use events where appropriate
         {
             OnPropertyChanged(propertyName);
         }
@@ -160,7 +162,9 @@ namespace Adaptive.Intelligence.Framework.Tests.Mocks
         /// <param name="propertyName">
         /// The name of the property whose validation state changed.
         /// </param>
+#pragma warning disable CA1030 // Use events where appropriate
         public void RaisePropertyValidationChangedForTest(string propertyName)
+#pragma warning restore CA1030 // Use events where appropriate
         {
             OnPropertyValidationChanged(propertyName);
         }

@@ -40,6 +40,7 @@ namespace Adaptive.Intelligence.Framework.Tests.Mocks
         /// </summary>
         protected override string? FormatException(Exception exception)
         {
+            ArgumentNullException.ThrowIfNull(exception, nameof(exception));
             return $"Exception: ['{exception.Message}']\r\n";
         }
 
