@@ -35,6 +35,7 @@
         /// </param>
         public MruFileEntryList(Stream sourceStream) : base(sourceStream)
         {
+            PopulateFromStream(sourceStream);
         }
         #endregion
 
@@ -104,7 +105,7 @@
         /// </returns>
         public bool ContainsFile(string pathAndFileName)
         {
-            MruFileEntry? entry = this.FirstOrDefault(x => x.FileName == pathAndFileName);
+            MruFileEntry? entry = this.FirstOrDefault(x => string.Compare(x.FileName, pathAndFileName, StringComparison.OrdinalIgnoreCase) == 0);
             return entry != null;
         }
 
@@ -116,7 +117,7 @@
         /// </param>
         public void RemoveFile(string pathAndFileName)
         {
-            MruFileEntry? entry = this.FirstOrDefault(x => x.FileName == pathAndFileName);
+            MruFileEntry? entry = this.FirstOrDefault(x => string.Compare(x.FileName, pathAndFileName, StringComparison.OrdinalIgnoreCase) == 0);
             if (entry != null)
             {
                 Remove(entry);

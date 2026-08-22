@@ -25,7 +25,7 @@ namespace Adaptive.Intelligence.Security
         /// <summary>
         /// RSA Key size.
         /// </summary>
-        private int _keySize = 3072;
+        private readonly int _keySize = 3072;
         #endregion
 
         #region Constructor / Dispose Methods
@@ -316,50 +316,6 @@ namespace Adaptive.Intelligence.Security
                 _currentKey = rsaParams;
             }
         }
-        /// <summary>
-        /// Sets the RSA private key value from the provided data.
-        /// </summary>
-        /// <param name="keyData">
-        /// A byte array containing the concatenation of all the fields on the
-        /// internal <see cref="RSAParameters"/> instance containing the key data.
-        /// </param>
-        public void SetPrivateKey(byte[] keyData)
-        {
-            // Remove the old item.
-            ClearKeyMemory();
-
-            int modulusSize = _keySize / 8;
-            int halfModulusSize = _keySize / 16;
-
-            /* Sizes for the parameters of RSAParameters:
-             * Where k = keysize / 8:
-             * 
-             * Modulus : k bytes
-             * Exponent : 3 bytes
-             * D : k bytes
-             * P : k/2 bytes
-             * Q : k/2 bytes
-             * DP : k/2 bytes
-             * DQ : k/2 bytes
-             * InverseQ : k/2 bytes
-             */
-
-            using MemoryStream stream = new(keyData);
-            using BinaryReader reader = new(stream);
-            RSAParameters rsaParams = new()
-            {
-                D = reader.ReadBytes(modulusSize),
-                DP = reader.ReadBytes(halfModulusSize),
-                DQ = reader.ReadBytes(halfModulusSize),
-                Exponent = reader.ReadBytes(3),
-                InverseQ = reader.ReadBytes(halfModulusSize),
-                Modulus = reader.ReadBytes(modulusSize),
-                P = reader.ReadBytes(halfModulusSize),
-                Q = reader.ReadBytes(halfModulusSize)
-            };
-            _currentKey = rsaParams;
-            _provider?.ImportParameters(_currentKey.Value);
-        }
 
         /// <summary>
         /// Sets the RSA private key value from the provided data.
@@ -400,67 +356,44 @@ namespace Adaptive.Intelligence.Security
         /// </returns>
         public byte[]? SerializePrivateKey()
         {
-            byte[]? returnData = null;
+            if (_provider is null)
+                return null;
 
-            if (_currentKey != null && _currentKey.HasValue)
+            try
             {
-                using MemoryStream stream = new(16384);
-                using BinaryWriter writer = new(stream);
-
-                try
-                {
-                    if (_currentKey.Value.D != null)
-                    {
-                        writer.Write(_currentKey.Value.D);
-                    }
-
-                    if (_currentKey.Value.DP != null)
-                    {
-                        writer.Write(_currentKey.Value.DP);
-                    }
-
-                    if (_currentKey.Value.DQ != null)
-                    {
-                        writer.Write(_currentKey.Value.DQ);
-                    }
-
-                    if (_currentKey.Value.Exponent != null)
-                    {
-                        writer.Write(_currentKey.Value.Exponent);
-                    }
-
-                    if (_currentKey.Value.InverseQ != null)
-                    {
-                        writer.Write(_currentKey.Value.InverseQ);
-                    }
-
-                    if (_currentKey.Value.Modulus != null)
-                    {
-                        writer.Write(_currentKey.Value.Modulus);
-                    }
-
-                    if (_currentKey.Value.P != null)
-                    {
-                        writer.Write(_currentKey.Value.P);
-                    }
-
-                    if (_currentKey.Value.Q != null)
-                    {
-                        writer.Write(_currentKey.Value.Q);
-                    }
-
-                    writer.Flush();
-                    returnData = stream.ToArray();
-                }
-                catch (Exception ex)
-                {
-                    LogError(ex, nameof(SerializePrivateKey));
-                }
-
-                writer.Dispose();
-                stream.Dispose();
+                return _provider.ExportRSAPrivateKey();
             }
-            return returnData;
+            catch (Exception ex)
+            {
+                LogError(ex, nameof(SerializePrivateKey));
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyData"></param>
+        /// <exception cref="CryptographicException"></exception>
+        public void SetPrivateKey(byte[] keyData)
+        {
+            if (_provider is null || keyData is null || keyData.Length == 0)
+                return;
+
+            ClearKeyMemory();
+
+            try
+            {
+                _provider.ImportRSAPrivateKey(keyData, out int bytesRead);
+                if (bytesRead != keyData.Length)
+                    throw new CryptographicException("Invalid RSA private key payload.");
+
+                _currentKey = _provider.ExportParameters(true);
+            }
+            catch (Exception ex)
+            {
+                LogError(ex, nameof(SetPrivateKey));
+            }
         }
         #endregion
 

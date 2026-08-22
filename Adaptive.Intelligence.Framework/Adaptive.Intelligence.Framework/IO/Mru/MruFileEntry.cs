@@ -58,7 +58,7 @@ namespace Adaptive.Intelligence.IO.Mru
         /// <value>
         /// A string containing the fully-qualified path and name of the file.
         /// </value>
-        public string? FileName { get => MruData; set => MruData = value; }
+        public string? FileName { get; set; }
 
         /// <summary>
         /// Gets the file name only.
@@ -70,13 +70,13 @@ namespace Adaptive.Intelligence.IO.Mru
         {
             get
             {
-                if (string.IsNullOrEmpty(MruData))
+                if (string.IsNullOrEmpty(FileName))
                 {
                     return null;
                 }
                 else
                 {
-                    return Path.GetFileName(MruData);
+                    return Path.GetFileName(FileName);
                 }
             }
         }
@@ -109,6 +109,8 @@ namespace Adaptive.Intelligence.IO.Mru
         public void Load(SafeBinaryReader reader)
         {
             Id = reader.ReadInt32();
+            DisplayText = reader.ReadNullableString();
+            FileName = reader.ReadNullableString();
             MruData = reader.ReadNullableString();
             Permissions = reader.ReadInt32();
         }
@@ -120,6 +122,8 @@ namespace Adaptive.Intelligence.IO.Mru
         public void Save(SafeBinaryWriter writer)
         {
             writer.Write(Id);
+            writer.WriteNullable(DisplayText);
+            writer.WriteNullable(FileName);
             writer.WriteNullable(MruData);
             writer.Write(Permissions);
         }

@@ -43,7 +43,7 @@ namespace Adaptive.Intelligence.IO
             // Copy the data if successful.
             if (stream != null)
             {
-                stream.Seek(0, SeekOrigin.Begin);
+                _ = stream.Seek(0, SeekOrigin.Begin);
                 returnData = stream.ToArray();
 
                 stream.Dispose();

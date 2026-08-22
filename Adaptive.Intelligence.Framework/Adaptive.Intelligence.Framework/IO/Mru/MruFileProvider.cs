@@ -156,8 +156,9 @@ namespace Adaptive.Intelligence.IO.Mru
         /// </param>
         public void AddMruEntry(IMruEntry entry)
         {
-            if (_entries != null)
+            if (!IsDisposed)
             {
+                _entries ??= new MruFileEntryList();
                 if (entry is MruFileEntry fileEntry)
                 {
                     _entries.Add(fileEntry);
@@ -248,21 +249,31 @@ namespace Adaptive.Intelligence.IO.Mru
         /// </summary>
         public void Save()
         {
-            // Determine the file to use.
-            string fileToSave = DetermineFileName();
-
-            if (SafeIO.FileExists(fileToSave))
-            {
-                SafeIO.DeleteFile(fileToSave);
-            }
+            // Save to a temporary file first, then rename it to the target file name. This is to avoid data loss if the process is interrupted.
+            bool success = false;
+            string tempFileName = Path.GetTempFileName();
 
             // Write the data.
-            FileStream? destinationStream = SafeIO.OpenFileForExclusiveWrite(fileToSave);
+            FileStream? destinationStream = SafeIO.OpenFileForExclusiveWrite(tempFileName);
             if (destinationStream != null)
             {
                 _entries?.SaveToStream(destinationStream);
                 destinationStream.Close();
                 destinationStream.Dispose();
+                success = true;
+            }
+
+            // Determine the file to use.
+            string fileToSave = DetermineFileName();
+            if (success && !string.IsNullOrEmpty(fileToSave))
+            {
+                if (SafeIO.FileExists(fileToSave))
+                {
+                    SafeIO.DeleteFile(fileToSave);
+                }
+
+                // Move the temp file to the target file name.
+                File.Move(tempFileName, fileToSave);
             }
         }
         #endregion

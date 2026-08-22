@@ -79,22 +79,25 @@
         /// </exception>
         public void PopulateFromStream(Stream sourceStream)
         {
-            if (!sourceStream.CanRead)
+            if (sourceStream is null || !sourceStream.CanRead)
             {
-                throw new ArgumentNullException(nameof(sourceStream), "The input stream cannot be read from.");
+                throw new ArgumentException("The input stream cannot be read from.", nameof(sourceStream));
             }
 
             // Remove old content.
             Clear();
 
             // Read the record count.
+            sourceStream.Seek(0, SeekOrigin.Begin);
             SafeBinaryReader reader = new(sourceStream);
             int recordCount = reader.ReadInt32();
-
-            // Load each record.
-            for (int count = 0; count < recordCount; count++)
+            if (recordCount > -1 && recordCount < 25000)
             {
-                Add(ReadRecord(reader));
+                // Load each record.
+                for (int count = 0; count < recordCount; count++)
+                {
+                    Add(ReadRecord(reader));
+                }
             }
         }
 
@@ -109,9 +112,9 @@
         /// </exception>
         public void SaveToStream(Stream destinationStream)
         {
-            if (!destinationStream.CanWrite)
+            if (destinationStream is null || !destinationStream.CanWrite)
             {
-                throw new ArgumentNullException(nameof(destinationStream), "The input stream cannot be written to.");
+                throw new ArgumentException("The input stream cannot be written to.", nameof(destinationStream));
             }
 
             // Write the record count.
