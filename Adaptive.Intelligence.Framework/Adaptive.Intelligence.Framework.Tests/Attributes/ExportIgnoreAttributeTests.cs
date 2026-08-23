@@ -1,60 +1,59 @@
 using Adaptive.Intelligence.Attributes;
 using System.Reflection;
 
-namespace Adaptive.Intelligence.Framework.Tests.Attributes
+namespace Adaptive.Intelligence.Framework.Tests.Attributes;
+
+/// <summary>
+/// Gets the definition for ExportIgnoreAttributeTests.
+/// </summary>
+public class ExportIgnoreAttributeTests
 {
     /// <summary>
-    /// Gets the definition for ExportIgnoreAttributeTests.
+    /// Gets the definition for TestClass.
     /// </summary>
-    public class ExportIgnoreAttributeTests
+    private sealed class TestClass
     {
+        [ExportIgnore]
         /// <summary>
-        /// Gets the definition for TestClass.
+        /// Gets the definition for IgnoredProperty.
         /// </summary>
-        private sealed class TestClass
-        {
-            [ExportIgnore]
-            /// <summary>
-            /// Gets the definition for IgnoredProperty.
-            /// </summary>
-            public int IgnoredProperty { get; set; }
+        public int IgnoredProperty { get; set; }
 
-            /// <summary>
-            /// Gets the definition for NotDecoratedProperty.
-            /// </summary>
-            public int NotDecoratedProperty { get; set; }
-        }
-
-        [Fact]
         /// <summary>
-        /// Gets the definition for ExportIgnoreAttribute_ShouldBeApplicableToProperty.
+        /// Gets the definition for NotDecoratedProperty.
         /// </summary>
-        public void ExportIgnoreAttribute_ShouldBeApplicableToProperty()
-        {
-            // Arrange
-            var property = typeof(TestClass).GetProperty(nameof(TestClass.IgnoredProperty));
+        public int NotDecoratedProperty { get; set; }
+    }
 
-            // Act
-            var attribute = property?.GetCustomAttribute(typeof(ExportIgnoreAttribute));
+    [Fact]
+    /// <summary>
+    /// Gets the definition for ExportIgnoreAttribute_ShouldBeApplicableToProperty.
+    /// </summary>
+    public void ExportIgnoreAttribute_ShouldBeApplicableToProperty()
+    {
+        // Arrange
+        var property = typeof(TestClass).GetProperty(nameof(TestClass.IgnoredProperty));
 
-            // Assert
-            Assert.NotNull(attribute);
-        }
+        // Act
+        var attribute = property?.GetCustomAttribute(typeof(ExportIgnoreAttribute));
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for ExportIgnoreAttribute_ShouldNotBeFoundOnNonDecoratedProperty.
-        /// </summary>
-        public void ExportIgnoreAttribute_ShouldNotBeFoundOnNonDecoratedProperty()
-        {
-            // Arrange
-            var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NotDecoratedProperty));
+        // Assert
+        Assert.NotNull(attribute);
+    }
 
-            // Act
-            var attribute = nonDecoratedProperty?.GetCustomAttribute(typeof(ExportIgnoreAttribute));
+    [Fact]
+    /// <summary>
+    /// Gets the definition for ExportIgnoreAttribute_ShouldNotBeFoundOnNonDecoratedProperty.
+    /// </summary>
+    public void ExportIgnoreAttribute_ShouldNotBeFoundOnNonDecoratedProperty()
+    {
+        // Arrange
+        var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NotDecoratedProperty));
 
-            // Assert
-            Assert.Null(attribute); // Assuming there's no ExportIgnoreAttribute on the non-decorated property
-        }
+        // Act
+        var attribute = nonDecoratedProperty?.GetCustomAttribute(typeof(ExportIgnoreAttribute));
+
+        // Assert
+        Assert.Null(attribute); // Assuming there's no ExportIgnoreAttribute on the non-decorated property
     }
 }

@@ -1,66 +1,65 @@
 using Adaptive.Intelligence.Attributes;
 using System.Reflection;
 
-namespace Adaptive.Intelligence.Framework.Tests.Attributes
+namespace Adaptive.Intelligence.Framework.Tests.Attributes;
+
+/// <summary>
+/// Gets the definition for ImportIgnoreAttributeTests.
+/// </summary>
+public class ImportIgnoreAttributeTests
 {
     /// <summary>
-    /// Gets the definition for ImportIgnoreAttributeTests.
+    /// Gets the definition for TestClass.
     /// </summary>
-    public class ImportIgnoreAttributeTests
+    private sealed class TestClass
     {
+        [ImportIgnore]
         /// <summary>
-        /// Gets the definition for TestClass.
+        /// Gets the definition for IgnoredProperty.
         /// </summary>
-        private sealed class TestClass
-        {
-            [ImportIgnore]
-            /// <summary>
-            /// Gets the definition for IgnoredProperty.
-            /// </summary>
-            public int IgnoredProperty { get; set; }
+        public int IgnoredProperty { get; set; }
 
-            /// <summary>
-            /// Gets the definition for NotDecoratedProperty.
-            /// </summary>
-            public int NotDecoratedProperty { get; set; }
-        }
-
-        [Fact]
         /// <summary>
-        /// Gets the definition for ImportIgnoreAttribute_ShouldBeApplicableToProperty.
+        /// Gets the definition for NotDecoratedProperty.
         /// </summary>
-        public void ImportIgnoreAttribute_ShouldBeApplicableToProperty()
-        {
-            // Arrange
-            var property = typeof(TestClass).GetProperty(nameof(TestClass.IgnoredProperty));
+        public int NotDecoratedProperty { get; set; }
+    }
 
-            // Act
-            Assert.NotNull(property); // Ensure the property exists);
-            var attribute = property.GetCustomAttribute<ImportIgnoreAttribute>();
+    [Fact]
+    /// <summary>
+    /// Gets the definition for ImportIgnoreAttribute_ShouldBeApplicableToProperty.
+    /// </summary>
+    public void ImportIgnoreAttribute_ShouldBeApplicableToProperty()
+    {
+        // Arrange
+        var property = typeof(TestClass).GetProperty(nameof(TestClass.IgnoredProperty));
 
-            // Assert
-            Assert.NotNull(attribute);
-        }
+        // Act
+        Assert.NotNull(property); // Ensure the property exists);
+        var attribute = property.GetCustomAttribute<ImportIgnoreAttribute>();
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for ImportIgnoreAttribute_ShouldNotBeFoundOnNonDecoratedProperty.
-        /// </summary>
-        public void ImportIgnoreAttribute_ShouldNotBeFoundOnNonDecoratedProperty()
-        {
-            // Arrange
-            var property = typeof(TestClass).GetProperty(nameof(TestClass.NotDecoratedProperty));
-            Assert.NotNull(property);
+        // Assert
+        Assert.NotNull(attribute);
+    }
 
-            // Adding a non-decorated property for comparison
-            var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NotDecoratedProperty));
+    [Fact]
+    /// <summary>
+    /// Gets the definition for ImportIgnoreAttribute_ShouldNotBeFoundOnNonDecoratedProperty.
+    /// </summary>
+    public void ImportIgnoreAttribute_ShouldNotBeFoundOnNonDecoratedProperty()
+    {
+        // Arrange
+        var property = typeof(TestClass).GetProperty(nameof(TestClass.NotDecoratedProperty));
+        Assert.NotNull(property);
 
-            // Act
-            Assert.NotNull(nonDecoratedProperty); // Ensure the property exists
-            var attribute = nonDecoratedProperty.GetCustomAttribute<ImportIgnoreAttribute>();
+        // Adding a non-decorated property for comparison
+        var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NotDecoratedProperty));
 
-            // Assert
-            Assert.Null(attribute);
-        }
+        // Act
+        Assert.NotNull(nonDecoratedProperty); // Ensure the property exists
+        var attribute = nonDecoratedProperty.GetCustomAttribute<ImportIgnoreAttribute>();
+
+        // Assert
+        Assert.Null(attribute);
     }
 }

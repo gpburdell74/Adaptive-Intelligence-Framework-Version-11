@@ -1,376 +1,375 @@
 using Adaptive.Intelligence.Framework.Tests.Mocks;
 
-namespace Adaptive.Intelligence.Framework.Tests.Abstractions.Repository
+namespace Adaptive.Intelligence.Framework.Tests.Abstractions.Repository;
+
+/// <summary>
+/// Provides tests for the <see cref="Intelligence.Abstractions.Repository.RepositoryBase{TIdType, TEntityType}"/> abstract class.
+/// </summary>
+public class RepositoryBaseTTests
 {
+    [Fact]
     /// <summary>
-    /// Provides tests for the <see cref="Intelligence.Abstractions.Repository.RepositoryBase{TIdType, TEntityType}"/> abstract class.
+    /// Gets the definition for Add_With_Null_Item_Returns_False_And_Does_Not_Record_Error.
     /// </summary>
-    public class RepositoryBaseTTests
+    public void Add_With_Null_Item_Returns_False_And_Does_Not_Record_Error()
     {
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Add_With_Null_Item_Returns_False_And_Does_Not_Record_Error.
-        /// </summary>
-        public void Add_With_Null_Item_Returns_False_And_Does_Not_Record_Error()
+        MockRepositoryBaseT mock = new();
+
+        bool success = mock.Add(null);
+
+        Assert.False(success);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Null(mock.LastOperationError);
+    }
+
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Add_Returns_PerformAdd_Result_And_Updates_LastOperationSuccess.
+    /// </summary>
+    public void Add_Returns_PerformAdd_Result_And_Updates_LastOperationSuccess()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new();
+            AddResult = true
+        };
 
-            bool success = mock.Add(null);
+        MockEntityBase item = new() { Id = 100 };
 
-            Assert.False(success);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Null(mock.LastOperationError);
-        }
+        bool success = mock.Add(item);
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Add_Returns_PerformAdd_Result_And_Updates_LastOperationSuccess.
-        /// </summary>
-        public void Add_Returns_PerformAdd_Result_And_Updates_LastOperationSuccess()
+        Assert.True(success);
+        Assert.True(mock.LastOperationSuccess);
+        Assert.Null(mock.LastOperationError);
+    }
+
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Add_When_PerformAdd_Throws_Returns_False_And_Records_Error.
+    /// </summary>
+    public void Add_When_PerformAdd_Throws_Returns_False_And_Records_Error()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                AddResult = true
-            };
+            ThrowOnAdd = true
+        };
 
-            MockEntityBase item = new() { Id = 100 };
+        MockEntityBase item = new() { Id = 100 };
+        bool success = mock.Add(item);
 
-            bool success = mock.Add(item);
+        Assert.False(success);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Equal("Add failed.", mock.LastOperationError);
+        Assert.True(mock.HasExceptions);
+    }
 
-            Assert.True(success);
-            Assert.True(mock.LastOperationSuccess);
-            Assert.Null(mock.LastOperationError);
-        }
-
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Add_When_PerformAdd_Throws_Returns_False_And_Records_Error.
-        /// </summary>
-        public void Add_When_PerformAdd_Throws_Returns_False_And_Records_Error()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for AddAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess.
+    /// </summary>
+    public async Task AddAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                ThrowOnAdd = true
-            };
+            AddAsyncResult = true
+        };
 
-            MockEntityBase item = new() { Id = 100 };
-            bool success = mock.Add(item);
+        using CancellationTokenSource source = new();
+        MockEntityBase item = new() { Id = 101 };
 
-            Assert.False(success);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Equal("Add failed.", mock.LastOperationError);
-            Assert.True(mock.HasExceptions);
-        }
+        bool success = await mock.AddAsync(item, source.Token);
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for AddAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess.
-        /// </summary>
-        public async Task AddAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess()
+        Assert.True(success);
+        Assert.True(mock.LastOperationSuccess);
+        Assert.Equal(source.Token, mock.LastAddAsyncToken);
+    }
+
+    [Fact]
+    /// <summary>
+    /// Gets the definition for AddAsync_When_PerformAddAsync_Throws_Returns_False_And_Records_Error.
+    /// </summary>
+    public async Task AddAsync_When_PerformAddAsync_Throws_Returns_False_And_Records_Error()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                AddAsyncResult = true
-            };
+            ThrowOnAddAsync = true
+        };
 
-            using CancellationTokenSource source = new();
-            MockEntityBase item = new() { Id = 101 };
+        using CancellationTokenSource source = new();
+        MockEntityBase item = new() { Id = 102 };
+        bool success = await mock.AddAsync(item, source.Token);
 
-            bool success = await mock.AddAsync(item, source.Token);
+        Assert.False(success);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Equal("Add async failed.", mock.LastOperationError);
+        Assert.True(mock.HasExceptions);
+    }
 
-            Assert.True(success);
-            Assert.True(mock.LastOperationSuccess);
-            Assert.Equal(source.Token, mock.LastAddAsyncToken);
-        }
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Delete_With_Null_Item_Returns_False_And_Does_Not_Record_Error.
+    /// </summary>
+    public void Delete_With_Null_Item_Returns_False_And_Does_Not_Record_Error()
+    {
+        MockRepositoryBaseT mock = new();
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for AddAsync_When_PerformAddAsync_Throws_Returns_False_And_Records_Error.
-        /// </summary>
-        public async Task AddAsync_When_PerformAddAsync_Throws_Returns_False_And_Records_Error()
+        bool success = mock.Delete(null);
+
+        Assert.False(success);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Null(mock.LastOperationError);
+    }
+
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Delete_Returns_PerformDelete_Result_And_Updates_LastOperationSuccess.
+    /// </summary>
+    public void Delete_Returns_PerformDelete_Result_And_Updates_LastOperationSuccess()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                ThrowOnAddAsync = true
-            };
+            DeleteResult = true
+        };
 
-            using CancellationTokenSource source = new();
-            MockEntityBase item = new() { Id = 102 };
-            bool success = await mock.AddAsync(item, source.Token);
+        MockEntityBase item = new() { Id = 42 };
 
-            Assert.False(success);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Equal("Add async failed.", mock.LastOperationError);
-            Assert.True(mock.HasExceptions);
-        }
+        bool success = mock.Delete(item);
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Delete_With_Null_Item_Returns_False_And_Does_Not_Record_Error.
-        /// </summary>
-        public void Delete_With_Null_Item_Returns_False_And_Does_Not_Record_Error()
+        Assert.True(success);
+        Assert.True(mock.LastOperationSuccess);
+        Assert.Null(mock.LastOperationError);
+    }
+
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Delete_When_PerformDelete_Throws_Returns_False_And_Records_Error.
+    /// </summary>
+    public void Delete_When_PerformDelete_Throws_Returns_False_And_Records_Error()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new();
+            ThrowOnDelete = true
+        };
 
-            bool success = mock.Delete(null);
+        MockEntityBase item = new() { Id = 7 };
 
-            Assert.False(success);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Null(mock.LastOperationError);
-        }
+        bool success = mock.Delete(item);
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Delete_Returns_PerformDelete_Result_And_Updates_LastOperationSuccess.
-        /// </summary>
-        public void Delete_Returns_PerformDelete_Result_And_Updates_LastOperationSuccess()
+        Assert.False(success);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Equal("Delete failed.", mock.LastOperationError);
+        Assert.True(mock.HasExceptions);
+    }
+
+    [Fact]
+    /// <summary>
+    /// Gets the definition for DeleteAsync_Uses_Given_CancellationToken_And_Raises_Async_Events.
+    /// </summary>
+    public async Task DeleteAsync_Uses_Given_CancellationToken_And_Raises_Async_Events()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                DeleteResult = true
-            };
+            DeleteAsyncResult = true
+        };
+        List<string> started = [];
+        List<string> completed = [];
 
-            MockEntityBase item = new() { Id = 42 };
+        mock.AsyncQueryStarted += (_, e) => started.Add(e.Content ?? string.Empty);
+        mock.AsyncQueryCompleted += (_, e) => completed.Add(e.Content ?? string.Empty);
 
-            bool success = mock.Delete(item);
+        using CancellationTokenSource source = new();
+        MockEntityBase item = new() { Id = 5 };
 
-            Assert.True(success);
-            Assert.True(mock.LastOperationSuccess);
-            Assert.Null(mock.LastOperationError);
-        }
+        bool success = await mock.DeleteAsync(item, source.Token);
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Delete_When_PerformDelete_Throws_Returns_False_And_Records_Error.
-        /// </summary>
-        public void Delete_When_PerformDelete_Throws_Returns_False_And_Records_Error()
+        Assert.True(success);
+        Assert.True(mock.LastOperationSuccess);
+        Assert.Equal(source.Token, mock.LastDeleteAsyncToken);
+        Assert.Single(started);
+        Assert.Single(completed);
+        Assert.Equal("DeleteAsync", started[0]);
+        Assert.Equal("DeleteAsync", completed[0]);
+        Assert.Equal(0, mock.QueriesRunning);
+    }
+
+    [Fact]
+    /// <summary>
+    /// Gets the definition for DeleteAsync_When_PerformDeleteAsync_Throws_Returns_False_And_Records_Error.
+    /// </summary>
+    public async Task DeleteAsync_When_PerformDeleteAsync_Throws_Returns_False_And_Records_Error()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                ThrowOnDelete = true
-            };
+            ThrowOnDeleteAsync = true
+        };
 
-            MockEntityBase item = new() { Id = 7 };
+        MockEntityBase item = new() { Id = 9 };
 
-            bool success = mock.Delete(item);
+        bool success = await mock.DeleteAsync(item, CancellationToken.None);
 
-            Assert.False(success);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Equal("Delete failed.", mock.LastOperationError);
-            Assert.True(mock.HasExceptions);
-        }
+        Assert.False(success);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Equal("Delete async failed.", mock.LastOperationError);
+        Assert.True(mock.HasExceptions);
+        Assert.Equal(0, mock.QueriesRunning);
+    }
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for DeleteAsync_Uses_Given_CancellationToken_And_Raises_Async_Events.
-        /// </summary>
-        public async Task DeleteAsync_Uses_Given_CancellationToken_And_Raises_Async_Events()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for LoadItem_Returns_Item_And_Sets_LastOperationSuccess_True.
+    /// </summary>
+    public void LoadItem_Returns_Item_And_Sets_LastOperationSuccess_True()
+    {
+        MockEntityBase expected = new() { Id = 88, Deleted = true };
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                DeleteAsyncResult = true
-            };
-            List<string> started = [];
-            List<string> completed = [];
+            LoadByIdResult = expected
+        };
 
-            mock.AsyncQueryStarted += (_, e) => started.Add(e.Content ?? string.Empty);
-            mock.AsyncQueryCompleted += (_, e) => completed.Add(e.Content ?? string.Empty);
+        MockEntityBase? item = mock.LoadItem(88);
 
-            using CancellationTokenSource source = new();
-            MockEntityBase item = new() { Id = 5 };
+        Assert.Same(expected, item);
+        Assert.True(mock.LastOperationSuccess);
+        Assert.Null(mock.LastOperationError);
+    }
 
-            bool success = await mock.DeleteAsync(item, source.Token);
-
-            Assert.True(success);
-            Assert.True(mock.LastOperationSuccess);
-            Assert.Equal(source.Token, mock.LastDeleteAsyncToken);
-            Assert.Single(started);
-            Assert.Single(completed);
-            Assert.Equal("DeleteAsync", started[0]);
-            Assert.Equal("DeleteAsync", completed[0]);
-            Assert.Equal(0, mock.QueriesRunning);
-        }
-
-        [Fact]
-        /// <summary>
-        /// Gets the definition for DeleteAsync_When_PerformDeleteAsync_Throws_Returns_False_And_Records_Error.
-        /// </summary>
-        public async Task DeleteAsync_When_PerformDeleteAsync_Throws_Returns_False_And_Records_Error()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for LoadItem_When_Result_Is_Null_Leaves_LastOperationSuccess_False.
+    /// </summary>
+    public void LoadItem_When_Result_Is_Null_Leaves_LastOperationSuccess_False()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                ThrowOnDeleteAsync = true
-            };
+            LoadByIdResult = null
+        };
 
-            MockEntityBase item = new() { Id = 9 };
+        MockEntityBase? item = mock.LoadItem(3);
 
-            bool success = await mock.DeleteAsync(item, CancellationToken.None);
+        Assert.Null(item);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Null(mock.LastOperationError);
+    }
 
-            Assert.False(success);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Equal("Delete async failed.", mock.LastOperationError);
-            Assert.True(mock.HasExceptions);
-            Assert.Equal(0, mock.QueriesRunning);
-        }
-
-        [Fact]
-        /// <summary>
-        /// Gets the definition for LoadItem_Returns_Item_And_Sets_LastOperationSuccess_True.
-        /// </summary>
-        public void LoadItem_Returns_Item_And_Sets_LastOperationSuccess_True()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for LoadItemAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess.
+    /// </summary>
+    public async Task LoadItemAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess()
+    {
+        MockEntityBase expected = new() { Id = 21 };
+        MockRepositoryBaseT mock = new()
         {
-            MockEntityBase expected = new() { Id = 88, Deleted = true };
-            MockRepositoryBaseT mock = new()
-            {
-                LoadByIdResult = expected
-            };
+            LoadAsyncResult = expected
+        };
 
-            MockEntityBase? item = mock.LoadItem(88);
+        using CancellationTokenSource source = new();
+        MockEntityBase? item = await mock.LoadItemAsync(21, source.Token);
 
-            Assert.Same(expected, item);
-            Assert.True(mock.LastOperationSuccess);
-            Assert.Null(mock.LastOperationError);
-        }
+        Assert.Same(expected, item);
+        Assert.True(mock.LastOperationSuccess);
+        Assert.Equal(source.Token, mock.LastLoadAsyncToken);
+        Assert.Equal(0, mock.QueriesRunning);
+    }
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for LoadItem_When_Result_Is_Null_Leaves_LastOperationSuccess_False.
-        /// </summary>
-        public void LoadItem_When_Result_Is_Null_Leaves_LastOperationSuccess_False()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for LoadItemAsync_When_PerformLoadAsync_Throws_Returns_Null_And_Records_Error.
+    /// </summary>
+    public async Task LoadItemAsync_When_PerformLoadAsync_Throws_Returns_Null_And_Records_Error()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                LoadByIdResult = null
-            };
+            ThrowOnLoadAsync = true
+        };
 
-            MockEntityBase? item = mock.LoadItem(3);
+        MockEntityBase? item = await mock.LoadItemAsync(44, CancellationToken.None);
 
-            Assert.Null(item);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Null(mock.LastOperationError);
-        }
+        Assert.Null(item);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Equal("Load async failed.", mock.LastOperationError);
+        Assert.True(mock.HasExceptions);
+        Assert.Equal(0, mock.QueriesRunning);
+    }
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for LoadItemAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess.
-        /// </summary>
-        public async Task LoadItemAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Save_Returns_PerformSave_Result_And_Updates_LastOperationSuccess.
+    /// </summary>
+    public void Save_Returns_PerformSave_Result_And_Updates_LastOperationSuccess()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockEntityBase expected = new() { Id = 21 };
-            MockRepositoryBaseT mock = new()
-            {
-                LoadAsyncResult = expected
-            };
+            SaveResult = true
+        };
 
-            using CancellationTokenSource source = new();
-            MockEntityBase? item = await mock.LoadItemAsync(21, source.Token);
+        MockEntityBase item = new() { Id = 10 };
+        bool success = mock.Save(item);
 
-            Assert.Same(expected, item);
-            Assert.True(mock.LastOperationSuccess);
-            Assert.Equal(source.Token, mock.LastLoadAsyncToken);
-            Assert.Equal(0, mock.QueriesRunning);
-        }
+        Assert.True(success);
+        Assert.True(mock.LastOperationSuccess);
+        Assert.Null(mock.LastOperationError);
+    }
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for LoadItemAsync_When_PerformLoadAsync_Throws_Returns_Null_And_Records_Error.
-        /// </summary>
-        public async Task LoadItemAsync_When_PerformLoadAsync_Throws_Returns_Null_And_Records_Error()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Save_When_PerformSave_Throws_Returns_False_And_Records_Error.
+    /// </summary>
+    public void Save_When_PerformSave_Throws_Returns_False_And_Records_Error()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                ThrowOnLoadAsync = true
-            };
+            ThrowOnSave = true
+        };
 
-            MockEntityBase? item = await mock.LoadItemAsync(44, CancellationToken.None);
+        MockEntityBase item = new() { Id = 10 };
+        bool success = mock.Save(item);
 
-            Assert.Null(item);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Equal("Load async failed.", mock.LastOperationError);
-            Assert.True(mock.HasExceptions);
-            Assert.Equal(0, mock.QueriesRunning);
-        }
+        Assert.False(success);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Equal("Save failed.", mock.LastOperationError);
+        Assert.True(mock.HasExceptions);
+    }
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Save_Returns_PerformSave_Result_And_Updates_LastOperationSuccess.
-        /// </summary>
-        public void Save_Returns_PerformSave_Result_And_Updates_LastOperationSuccess()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for SaveAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess.
+    /// </summary>
+    public async Task SaveAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                SaveResult = true
-            };
+            SaveAsyncResult = true
+        };
 
-            MockEntityBase item = new() { Id = 10 };
-            bool success = mock.Save(item);
+        using CancellationTokenSource source = new();
+        MockEntityBase item = new() { Id = 22 };
 
-            Assert.True(success);
-            Assert.True(mock.LastOperationSuccess);
-            Assert.Null(mock.LastOperationError);
-        }
+        bool success = await mock.SaveAsync(item, source.Token);
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Save_When_PerformSave_Throws_Returns_False_And_Records_Error.
-        /// </summary>
-        public void Save_When_PerformSave_Throws_Returns_False_And_Records_Error()
+        Assert.True(success);
+        Assert.True(mock.LastOperationSuccess);
+        Assert.Equal(source.Token, mock.LastSaveAsyncToken);
+        Assert.Equal(0, mock.QueriesRunning);
+    }
+
+    [Fact]
+    /// <summary>
+    /// Gets the definition for SaveAsync_When_PerformSaveAsync_Throws_Returns_False_And_Records_Error.
+    /// </summary>
+    public async Task SaveAsync_When_PerformSaveAsync_Throws_Returns_False_And_Records_Error()
+    {
+        MockRepositoryBaseT mock = new()
         {
-            MockRepositoryBaseT mock = new()
-            {
-                ThrowOnSave = true
-            };
+            ThrowOnSaveAsync = true
+        };
 
-            MockEntityBase item = new() { Id = 10 };
-            bool success = mock.Save(item);
+        MockEntityBase item = new() { Id = 31 };
+        bool success = await mock.SaveAsync(item, CancellationToken.None);
 
-            Assert.False(success);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Equal("Save failed.", mock.LastOperationError);
-            Assert.True(mock.HasExceptions);
-        }
-
-        [Fact]
-        /// <summary>
-        /// Gets the definition for SaveAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess.
-        /// </summary>
-        public async Task SaveAsync_Uses_Given_CancellationToken_And_Updates_LastOperationSuccess()
-        {
-            MockRepositoryBaseT mock = new()
-            {
-                SaveAsyncResult = true
-            };
-
-            using CancellationTokenSource source = new();
-            MockEntityBase item = new() { Id = 22 };
-
-            bool success = await mock.SaveAsync(item, source.Token);
-
-            Assert.True(success);
-            Assert.True(mock.LastOperationSuccess);
-            Assert.Equal(source.Token, mock.LastSaveAsyncToken);
-            Assert.Equal(0, mock.QueriesRunning);
-        }
-
-        [Fact]
-        /// <summary>
-        /// Gets the definition for SaveAsync_When_PerformSaveAsync_Throws_Returns_False_And_Records_Error.
-        /// </summary>
-        public async Task SaveAsync_When_PerformSaveAsync_Throws_Returns_False_And_Records_Error()
-        {
-            MockRepositoryBaseT mock = new()
-            {
-                ThrowOnSaveAsync = true
-            };
-
-            MockEntityBase item = new() { Id = 31 };
-            bool success = await mock.SaveAsync(item, CancellationToken.None);
-
-            Assert.False(success);
-            Assert.False(mock.LastOperationSuccess);
-            Assert.Equal("Save async failed.", mock.LastOperationError);
-            Assert.True(mock.HasExceptions);
-            Assert.Equal(0, mock.QueriesRunning);
-        }
+        Assert.False(success);
+        Assert.False(mock.LastOperationSuccess);
+        Assert.Equal("Save async failed.", mock.LastOperationError);
+        Assert.True(mock.HasExceptions);
+        Assert.Equal(0, mock.QueriesRunning);
     }
 }
