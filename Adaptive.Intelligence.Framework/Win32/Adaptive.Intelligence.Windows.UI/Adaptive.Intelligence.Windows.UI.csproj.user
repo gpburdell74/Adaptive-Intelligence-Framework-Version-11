@@ -3,7 +3,7 @@
   <PropertyGroup />
   <ItemGroup>
     <Compile Update="Controls\AdvancedLabel.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Update="Controls\AIButton.cs">
       <SubType>Component</SubType>

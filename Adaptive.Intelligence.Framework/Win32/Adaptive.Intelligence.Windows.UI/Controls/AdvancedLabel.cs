@@ -12,10 +12,8 @@ namespace Adaptive.Intelligence.Win32.UI.Controls;
 /// <seealso cref="UserControl" />
 [DefaultBindingProperty("Text"),
  DefaultProperty("Text"),
- Designer("System.Windows.Forms.Design.LabelDesigner, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"),
- ToolboxItem("System.Windows.Forms.Design.AutoSizeToolboxItem,System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"),
- Description("DescriptionLabel")]
-public sealed class AdvancedLabel : UserControl
+ Description("Provides an advanced label class for Desktop applications.")]
+public sealed class AdvancedLabel : Label
 {
     #region Private Member Declarations
     /// <summary>
@@ -30,11 +28,6 @@ public sealed class AdvancedLabel : UserControl
     /// The maximum width of the label when auto-sizing.
     /// </summary>
     private int _maxAutoSizeWidth = 800;
-
-    /// <summary>
-    /// Graphics instance for internal measurements.
-    /// </summary>
-    private Graphics _graphics;
     #endregion
 
     #region Constructor / Dispose Methods
@@ -58,22 +51,6 @@ public sealed class AdvancedLabel : UserControl
         AutoSize = false;
         TabStop = false;
         Font = UiConstants.CreateStandardFont();
-
-        _graphics = CreateGraphics();
-    }
-
-    /// <summary>
-    /// Releases the unmanaged resources used by the <see cref="AdvancedLabel"/> and optionally releases the managed resources.
-    /// </summary>
-    /// <param name="disposing"></param>
-    protected override void Dispose(bool disposing)
-    {
-        if (!IsDisposed && disposing)
-        {
-            _graphics?.Dispose();
-        }
-
-        base.Dispose(disposing);
     }
     #endregion
 
@@ -170,7 +147,6 @@ public sealed class AdvancedLabel : UserControl
                 return;
             }
             base.Text = value;
-            OnTextChanged(EventArgs.Empty);
             PerformAutoSize();
             Invalidate();
         }
@@ -190,7 +166,7 @@ public sealed class AdvancedLabel : UserControl
      Browsable(true),
      DesignerSerializationVisibility(DesignerSerializationVisibility.Visible),
      Description("Determines how the text is aligned within the control.")]
-    public ContentAlignment TextAlign
+    public new ContentAlignment TextAlign
     {
         get => _alignment;
         set
@@ -270,10 +246,17 @@ public sealed class AdvancedLabel : UserControl
     /// </returns>
     public Size GetDesiredSize()
     {
-        Graphics g = CreateGraphics();
-        Size desiredSize = CalculateDesiredSize(g);
-        g.Dispose();
-        return desiredSize;
+        if (IsHandleCreated)
+        {
+            Graphics g = CreateGraphics();
+            Size desiredSize = CalculateDesiredSize(g);
+            g.Dispose();
+            return desiredSize;
+        }
+        else
+        {
+            return new Size(100, 100);
+        }
     }
     #endregion
 
@@ -316,12 +299,20 @@ public sealed class AdvancedLabel : UserControl
     /// <summary>
     /// Performs the auto-sizing of the label.
     /// </summary>
-    private void PerformAutoSize()
+    private void PerformAutoSize(Graphics? g = null)
     {
-        if (Dock == DockStyle.None && AutoSize && !string.IsNullOrEmpty(Text))
+        if (IsHandleCreated && !IsDisposed)
         {
-            // Calculate the new size values.
-            Size = CalculateDesiredSize(_graphics);
+            if (g is null)
+            {
+                g = CreateGraphics();
+            }
+
+            if (Dock == DockStyle.None && AutoSize && !string.IsNullOrEmpty(Text))
+            {
+                // Calculate the new size values.
+                Size = CalculateDesiredSize(g);
+            }
         }
     }
     /// <summary>

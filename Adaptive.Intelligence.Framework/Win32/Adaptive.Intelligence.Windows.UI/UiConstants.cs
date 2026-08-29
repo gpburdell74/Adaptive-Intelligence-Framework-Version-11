@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.Win32.UI.controls.Base;
+using System.ComponentModel;
 
 namespace Adaptive.Intelligence.Win32.UI;
 
@@ -93,9 +94,15 @@ public static class UiConstants
     /// </returns>
     public static bool InDesignMode()
     {
-        return (_processName == DevProcessName) ||
-               (_processName == DevProcessNameWithExtension) ||
-               (_processName == Path.GetFileNameWithoutExtension(DevProcessName));
+        if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+        {
+            return true;
+        }
+        string process = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
+
+        return process.Equals("devenv", StringComparison.OrdinalIgnoreCase) ||
+               process.Equals("DesignToolsServer", StringComparison.OrdinalIgnoreCase) ||
+               process.Equals("XDesProc", StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>

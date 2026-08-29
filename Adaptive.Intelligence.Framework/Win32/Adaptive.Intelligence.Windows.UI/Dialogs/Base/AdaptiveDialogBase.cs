@@ -101,27 +101,7 @@ public partial class AdaptiveDialogBase : Form
 
         // Create the list to store method calls to be executed in the future on the main thread.
         _futureExecutionTargetList = [];
-
-        // Create the default message box service implementation for showing message boxes.
-        _messageBoxService = new Win32MessageBoxService(this);
-
     }
-
-    ///// <summary>
-    ///// Initializes a new instance of the <see cref="AdaptiveDialogBase"/> class.
-    ///// </summary>
-    ///// <param name="messageBoxService">
-    ///// The <see cref="IMessageBoxService"/> implementation to use.
-    ///// </param>
-    ///// <param name="logger">
-    ///// The <see cref="ILogger"/> implementation to use.
-    ///// </param>
-    //public AdaptiveDialogBase(IMessageBoxService messageBoxService) : this()
-    //{
-    //    // Replace the default with the new reference.
-    //    _messageBoxService?.Dispose();
-    //    _messageBoxService = messageBoxService;
-    //}
 
     /// <summary>
     /// Releases unmanaged and - optionally - managed resources.
@@ -144,20 +124,6 @@ public partial class AdaptiveDialogBase : Form
     }
     #endregion
 
-    #region Public Properties
-    /// <summary>
-    /// Gets a value that indicates whether the <see cref="Component"/> is currently in design
-    /// mode.
-    /// </summary>
-    /// <value>
-    /// <b>true</b> if the component is in design mode; otherwise
-    /// <b>false</b>.
-    /// </value>
-    [Browsable(false),
-     DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    protected new bool DesignMode => UiConstants.InDesignMode() || base.DesignMode;
-    #endregion
-
     #region Protected Method Overrides
     /// <summary>
     /// Raises the <see cref="UserControl.Load"/> event.
@@ -168,6 +134,9 @@ public partial class AdaptiveDialogBase : Form
     protected override void OnLoad(EventArgs e)
     {
         LogStart();
+
+        // Create the default message box service implementation for showing message boxes.
+        _messageBoxService = new Win32MessageBoxService(this);
 
         // Set the form state variables.
         HelpButton = false;

@@ -9,7 +9,6 @@
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <AssemblyName>Adaptive.Intelligence.Windows.UIDemo</AssemblyName>
     <AssemblyTitle>Adaptive Intelligence Windows Desktop Demo Application</AssemblyTitle>
-    <ApplicationIcon>app.ico</ApplicationIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageId>Adaptive.Intelligence.Windows.UIDemo</PackageId>
     <Title>Adaptive Intelligence Windows Desktop Demo Application</Title>
@@ -28,10 +27,19 @@
     <RootNamespace>Adaptive.Intelligence.Windows.UIDemo</RootNamespace>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <Platforms>AnyCPU;x64</Platforms>
+    <PackageIcon>Nuget Package Logo For Applications.png</PackageIcon>
+    <ApplicationIcon>ProvidentFoundations.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="app.ico" />
+    <Content Include="ProvidentFoundations.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\Provident Foundations\Branding\Nuget Package Logo For Applications.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
