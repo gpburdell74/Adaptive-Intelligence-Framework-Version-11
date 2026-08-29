@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net11.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <AssemblyName>Adaptive.Intelligence.Windows.UIDemo</AssemblyName>
+    <AssemblyTitle>Adaptive Intelligence Windows Desktop Demo Application</AssemblyTitle>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageId>Adaptive.Intelligence.Windows.UIDemo</PackageId>
+    <Title>Adaptive Intelligence Windows Desktop Demo Application</Title>
+    <Version>11.0.1.0</Version>
+    <Authors>Sam Jones</Authors>
+    <Company>Adaptive Intelligence</Company>
+    <Product>Adaptive Intelligence Framework Version 11</Product>
+    <Description>A Windows Desktop Application designer to demo the capabilities of the Adaptive Intelligence Framework and Windows UI Control Library.</Description>
+    <Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/gpburdell74/Adaptive-Intelligence-Framework-Version-11</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyVersion>11.0.1.0</AssemblyVersion>
+    <FileVersion>11.0.1.0</FileVersion>
+    <RootNamespace>Adaptive.Intelligence.Windows.UIDemo</RootNamespace>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <Platforms>AnyCPU;x64</Platforms>
+    <PackageIcon>Nuget Package Logo For Applications.png</PackageIcon>
+    <ApplicationIcon>ProvidentFoundations.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="ProvidentFoundations.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\Provident Foundations\Branding\Nuget Package Logo For Applications.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Adaptive.Intelligence.Framework\Adaptive.Intelligence.Framework.csproj" />
+    <ProjectReference Include="..\Adaptive.Intelligence.Windows.UI\Adaptive.Intelligence.Windows.UI.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,61 +1,60 @@
 using Adaptive.Intelligence.Attributes;
 using System.Reflection;
 
-namespace Adaptive.Intelligence.Framework.Tests.Attributes
+namespace Adaptive.Intelligence.Framework.Tests.Attributes;
+
+/// <summary>
+/// Gets the definition for ExportPropertyAttributeTests.
+/// </summary>
+public class ExportPropertyAttributeTests
 {
     /// <summary>
-    /// Gets the definition for ExportPropertyAttributeTests.
+    /// Gets the definition for TestClass.
     /// </summary>
-    public class ExportPropertyAttributeTests
+    private sealed class TestClass
     {
+        [ExportProperty]
         /// <summary>
-        /// Gets the definition for TestClass.
+        /// Gets the definition for ExportedProperty.
         /// </summary>
-        private sealed class TestClass
-        {
-            [ExportProperty]
-            /// <summary>
-            /// Gets the definition for ExportedProperty.
-            /// </summary>
-            public int ExportedProperty { get; set; }
+        public int ExportedProperty { get; set; }
 
-            /// <summary>
-            /// Gets the definition for NonDecoratedProperty.
-            /// </summary>
-            public int NonDecoratedProperty { get; set; }
-        }
-
-        [Fact]
         /// <summary>
-        /// Gets the definition for ExportPropertyAttribute_ShouldBeApplicableToProperty.
+        /// Gets the definition for NonDecoratedProperty.
         /// </summary>
-        public void ExportPropertyAttribute_ShouldBeApplicableToProperty()
-        {
-            // Arrange
-            var property = typeof(TestClass).GetProperty(nameof(TestClass.ExportedProperty));
+        public int NonDecoratedProperty { get; set; }
+    }
 
-            // Act
-            var attribute = property?.GetCustomAttribute(typeof(ExportPropertyAttribute));
+    [Fact]
+    /// <summary>
+    /// Gets the definition for ExportPropertyAttribute_ShouldBeApplicableToProperty.
+    /// </summary>
+    public void ExportPropertyAttribute_ShouldBeApplicableToProperty()
+    {
+        // Arrange
+        var property = typeof(TestClass).GetProperty(nameof(TestClass.ExportedProperty));
 
-            // Assert
-            Assert.NotNull(attribute);
-        }
+        // Act
+        var attribute = property?.GetCustomAttribute(typeof(ExportPropertyAttribute));
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for ExportPropertyAttribute_ShouldNotBeFoundOnNonDecoratedProperty.
-        /// </summary>
-        public void ExportPropertyAttribute_ShouldNotBeFoundOnNonDecoratedProperty()
-        {
-            // Arrange
-            var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NonDecoratedProperty));
-            Assert.NotNull(nonDecoratedProperty);
+        // Assert
+        Assert.NotNull(attribute);
+    }
 
-            // Act
-            var attribute = nonDecoratedProperty.GetCustomAttribute<ExportPropertyAttribute>();
+    [Fact]
+    /// <summary>
+    /// Gets the definition for ExportPropertyAttribute_ShouldNotBeFoundOnNonDecoratedProperty.
+    /// </summary>
+    public void ExportPropertyAttribute_ShouldNotBeFoundOnNonDecoratedProperty()
+    {
+        // Arrange
+        var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NonDecoratedProperty));
+        Assert.NotNull(nonDecoratedProperty);
 
-            // Assert
-            Assert.Null(attribute); // Assuming there's no ExportPropertyAttribute on the non-decorated property
-        }
+        // Act
+        var attribute = nonDecoratedProperty.GetCustomAttribute<ExportPropertyAttribute>();
+
+        // Assert
+        Assert.Null(attribute); // Assuming there's no ExportPropertyAttribute on the non-decorated property
     }
 }

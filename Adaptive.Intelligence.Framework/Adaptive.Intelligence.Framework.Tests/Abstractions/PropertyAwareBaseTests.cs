@@ -1,77 +1,76 @@
 using Adaptive.Intelligence.Framework.Tests.Mocks;
 
-namespace Adaptive.Intelligence.Framework.Tests.Abstractions
+namespace Adaptive.Intelligence.Framework.Tests.Abstractions;
+
+/// <summary>
+/// Provides the tests for the <see cref="PropertyAwareBase"/> abstract class.
+/// </summary>
+public class PropertyAwareBaseTests
 {
     /// <summary>
-    /// Provides the tests for the <see cref="PropertyAwareBase"/> abstract class.
+    ///  Test to ensure the PropertyChanged event is raised correctly.
     /// </summary>
-    public class PropertyAwareBaseTests
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Property_Changed_Event_Is_Raised.
+    /// </summary>
+    public void Property_Changed_Event_Is_Raised()
     {
-        /// <summary>
-        ///  Test to ensure the PropertyChanged event is raised correctly.
-        /// </summary>
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Property_Changed_Event_Is_Raised.
-        /// </summary>
-        public void Property_Changed_Event_Is_Raised()
+        var mock = new MockPropertyAwareBase();
+        var eventRaised = false;
+        string propertyName = "TestProperty";
+
+        mock.PropertyChanged += (sender, args) =>
         {
-            var mock = new MockPropertyAwareBase();
-            var eventRaised = false;
-            string propertyName = "TestProperty";
+            eventRaised = true;
+            Assert.Equal(propertyName, args.PropertyName);
+        };
 
-            mock.PropertyChanged += (sender, args) =>
-            {
-                eventRaised = true;
-                Assert.Equal(propertyName, args.PropertyName);
-            };
+        mock.InvokeOnPropertyChanged(propertyName);
 
-            mock.InvokeOnPropertyChanged(propertyName);
+        Assert.True(eventRaised, "PropertyChanged event was not raised.");
+    }
 
-            Assert.True(eventRaised, "PropertyChanged event was not raised.");
-        }
+    /// <summary>
+    /// Test to ensure the class handles null property names without throwing exceptions 
+    /// </summary>
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Property_Changed_Event_Handles_Null_Property_Name.
+    /// </summary>
+    public void Property_Changed_Event_Handles_Null_Property_Name()
+    {
+        var mock = new MockPropertyAwareBase();
+        var eventRaised = false;
 
-        /// <summary>
-        /// Test to ensure the class handles null property names without throwing exceptions 
-        /// </summary>
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Property_Changed_Event_Handles_Null_Property_Name.
-        /// </summary>
-        public void Property_Changed_Event_Handles_Null_Property_Name()
+        mock.PropertyChanged += (sender, args) =>
         {
-            var mock = new MockPropertyAwareBase();
-            var eventRaised = false;
+            eventRaised = true;
+            Assert.True(string.IsNullOrEmpty(args.PropertyName));
+        };
 
-            mock.PropertyChanged += (sender, args) =>
-            {
-                eventRaised = true;
-                Assert.True(string.IsNullOrEmpty(args.PropertyName));
-            };
+        mock.InvokeOnPropertyChanged(null);
 
-            mock.InvokeOnPropertyChanged(null);
+        Assert.False(eventRaised, "PropertyChanged event should handle null property names.");
+    }
 
-            Assert.False(eventRaised, "PropertyChanged event should handle null property names.");
-        }
-
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Property_Value_Change_Notification_Works.
-        /// </summary>
-        public void Property_Value_Change_Notification_Works()
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Property_Value_Change_Notification_Works.
+    /// </summary>
+    public void Property_Value_Change_Notification_Works()
+    {
+        var mock = new MockPropertyAwareBase();
+        var eventRaised = false;
+        mock.PropertyChanged += (sender, args) =>
         {
-            var mock = new MockPropertyAwareBase();
-            var eventRaised = false;
-            mock.PropertyChanged += (sender, args) =>
-            {
-                eventRaised = true;
-                Assert.Equal(nameof(MockPropertyAwareBase.TestProperty), args.PropertyName);
-            };
+            eventRaised = true;
+            Assert.Equal(nameof(MockPropertyAwareBase.TestProperty), args.PropertyName);
+        };
 
-            // Simulate a property change
-            mock.TestProperty = "New Value";
+        // Simulate a property change
+        mock.TestProperty = "New Value";
 
-            Assert.True(eventRaised, "PropertyChanged event was not raised on property value change.");
-        }
+        Assert.True(eventRaised, "PropertyChanged event was not raised on property value change.");
     }
 }

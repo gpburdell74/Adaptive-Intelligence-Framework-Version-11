@@ -1,35 +1,34 @@
 using Adaptive.Intelligence.Logging;
 
-namespace Adaptive.Intelligence.Framework.Tests.Logging
+namespace Adaptive.Intelligence.Framework.Tests.Logging;
+
+/// <summary>
+/// Provides tests for the <see cref="NullScope"/> class.
+/// </summary>
+public class NullScopeTests
 {
+    [Fact]
     /// <summary>
-    /// Provides tests for the <see cref="NullScope"/> class.
+    /// Gets the definition for Instance_Returns_A_New_NullScope_Reference_Each_Time.
     /// </summary>
-    public class NullScopeTests
+    public void Instance_Returns_A_New_NullScope_Reference_Each_Time()
     {
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Instance_Returns_A_New_NullScope_Reference_Each_Time.
-        /// </summary>
-        public void Instance_Returns_A_New_NullScope_Reference_Each_Time()
-        {
-            NullScope first = NullScope.Instance;
-            NullScope second = NullScope.Instance;
+        NullScope first = NullScope.Instance;
+        NullScope second = NullScope.Instance;
 
-            Assert.NotSame(first, second);
-        }
+        Assert.NotSame(first, second);
+    }
 
-        [Fact]
-        /// <summary>
-        /// Gets the definition for Dispose_Can_Be_Called_Without_Throwing.
-        /// </summary>
-        public void Dispose_Can_Be_Called_Without_Throwing()
-        {
-            NullScope scope = NullScope.Instance;
+    [Fact]
+    /// <summary>
+    /// Gets the definition for Dispose_Can_Be_Called_Without_Throwing.
+    /// </summary>
+    public void Dispose_Can_Be_Called_Without_Throwing()
+    {
+        NullScope scope = NullScope.Instance;
 
-            Exception? ex = Record.Exception(scope.Dispose);
+        Exception? ex = Record.Exception(scope.Dispose);
 
-            Assert.Null(ex);
-        }
+        Assert.Null(ex);
     }
 }

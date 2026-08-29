@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net11.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <AssemblyName>Adaptive.Intelligence.Win32.UI</AssemblyName>
+    <AssemblyTitle>Adaptive Intelligence Windows Desktop UI Controls Library</AssemblyTitle>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageId>Adaptive.Intelligence.Win32.UI</PackageId>
+    <Title>Adaptive Intelligence Windows Desktop UI Controls Library</Title>
+    <Version>11.0.1.0</Version>
+    <Authors>Sam Jones</Authors>
+    <Company>Adaptive Intelligence</Company>
+    <Product>Adaptive Intelligence Framework Version 11</Product>
+    <Description>A general purpose Windows Forms for Desktop (WinForms) controls and control library for use with .NET 11 Desktop Applications.  This library is only for Win32 native platforms.</Description>
+    <Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/gpburdell74/Adaptive-Intelligence-Framework-Version-11</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyVersion>11.0.1.0</AssemblyVersion>
+    <FileVersion>11.0.1.0</FileVersion>
+    <RootNamespace>Adaptive.Intelligence.Win32.UI</RootNamespace>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="app.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\License.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Adaptive.Intelligence.Framework\Adaptive.Intelligence.Framework.csproj" />
+  </ItemGroup>
+
+</Project>

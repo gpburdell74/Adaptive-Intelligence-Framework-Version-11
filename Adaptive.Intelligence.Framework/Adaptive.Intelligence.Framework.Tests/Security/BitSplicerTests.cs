@@ -3,57 +3,56 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Adaptive.Intelligence.Framework.Tests.Security
+namespace Adaptive.Intelligence.Framework.Tests.Security;
+
+public class BitSplicerTests
 {
-    public class BitSplicerTests
+    [Fact]
+    public void SpliceBitsTest()
     {
-        [Fact]
-        public void SpliceBitsTest()
+        byte[] data = new byte[256];
+        for (int count = 0; count < 256; count++)
         {
-            byte[] data = new byte[256];
-            for (int count = 0; count < 256; count++)
-            {
-                data[count] = (byte)count;
-            }
-
-            byte[]? content = BitSplicer.SpliceBits(data);
-            Assert.NotNull(content);
-            Assert.Equal(260, content.Length);
-
-        }
-        [Fact]
-        public void UnSpliceBitsTest()
-        {
-            byte[] data = new byte[256];
-            for (int count = 0; count < 256; count++)
-            {
-                data[count] = (byte)count;
-            }
-
-
-            byte[]? content = BitSplicer.SpliceBits(data);
-
-            byte[]? original = BitSplicer.UnSpliceBits(content);
-
-            Assert.NotNull(original);
-            Assert.Equal(data.Length, original.Length);
-            for (int index = 0; index < 256; index++)
-            {
-                Assert.Equal(data[index], original[index]);
-            }
+            data[count] = (byte)count;
         }
 
-        [Fact]
-        public void SpliceBitsNullTest()
+        byte[]? content = BitSplicer.SpliceBits(data);
+        Assert.NotNull(content);
+        Assert.Equal(260, content.Length);
+
+    }
+    [Fact]
+    public void UnSpliceBitsTest()
+    {
+        byte[] data = new byte[256];
+        for (int count = 0; count < 256; count++)
         {
-            byte[]? result = BitSplicer.SpliceBits(null);
-            Assert.Null(result);
+            data[count] = (byte)count;
         }
-        [Fact]
-        public void UnSpliceBitsNullTest()
+
+
+        byte[]? content = BitSplicer.SpliceBits(data);
+
+        byte[]? original = BitSplicer.UnSpliceBits(content);
+
+        Assert.NotNull(original);
+        Assert.Equal(data.Length, original.Length);
+        for (int index = 0; index < 256; index++)
         {
-            byte[]? result = BitSplicer.UnSpliceBits(null);
-            Assert.Null(result);
+            Assert.Equal(data[index], original[index]);
         }
+    }
+
+    [Fact]
+    public void SpliceBitsNullTest()
+    {
+        byte[]? result = BitSplicer.SpliceBits(null);
+        Assert.Null(result);
+    }
+    [Fact]
+    public void UnSpliceBitsNullTest()
+    {
+        byte[]? result = BitSplicer.UnSpliceBits(null);
+        Assert.Null(result);
     }
 }

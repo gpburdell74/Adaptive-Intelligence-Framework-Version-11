@@ -1,70 +1,69 @@
-namespace Adaptive.Intelligence.IO
+namespace Adaptive.Intelligence.IO;
+
+/// <summary>
+/// Provides general utility methods for file operations and file system operations.
+/// </summary>
+public static class FileUtility
 {
     /// <summary>
-    /// Provides general utility methods for file operations and file system operations.
+    /// Ensures the file name is for a file that does not currently exist in the path.
     /// </summary>
-    public static class FileUtility
+    /// <param name="originalFileName">
+    /// The original file name to check for.
+    /// </param>
+    /// <returns>
+    /// A unique file name based on the original file name.
+    /// </returns>
+    public static string EnsureUniqueFileName(string originalFileName)
     {
-        /// <summary>
-        /// Ensures the file name is for a file that does not currently exist in the path.
-        /// </summary>
-        /// <param name="originalFileName">
-        /// The original file name to check for.
-        /// </param>
-        /// <returns>
-        /// A unique file name based on the original file name.
-        /// </returns>
-        public static string EnsureUniqueFileName(string originalFileName)
+        string finalName = originalFileName;
+
+        if (File.Exists(originalFileName))
         {
-            string finalName = originalFileName;
-
-            if (File.Exists(originalFileName))
+            int counter = 1;
+            string? path = Path.GetDirectoryName(originalFileName);
+            if (path != null)
             {
-                int counter = 1;
-                string? path = Path.GetDirectoryName(originalFileName);
-                if (path != null)
-                {
-                    string name = Path.GetFileNameWithoutExtension(originalFileName);
-                    string ext = Path.GetExtension(originalFileName);
-                    string test = Path.Combine(path, name + counter + ext);
+                string name = Path.GetFileNameWithoutExtension(originalFileName);
+                string ext = Path.GetExtension(originalFileName);
+                string test = Path.Combine(path, name + counter + ext);
 
-                    while (File.Exists(test))
-                    {
-                        counter++;
-                        test = Path.Combine(path, name + counter + ext);
-                    }
-                    finalName = Path.Combine(path, name + counter + ext);
+                while (File.Exists(test))
+                {
+                    counter++;
+                    test = Path.Combine(path, name + counter + ext);
                 }
+                finalName = Path.Combine(path, name + counter + ext);
             }
-            return finalName;
         }
+        return finalName;
+    }
 
-        /// <summary>
-        /// Emulates the linux "touch" command by creating a new, empty file with the specified name.
-        /// </summary>
-        /// <param name="fileName">
-        /// A string containing the path and name of the file.
-        /// </param>
-        public static void Touch(string fileName)
+    /// <summary>
+    /// Emulates the linux "touch" command by creating a new, empty file with the specified name.
+    /// </summary>
+    /// <param name="fileName">
+    /// A string containing the path and name of the file.
+    /// </param>
+    public static void Touch(string fileName)
+    {
+        if (!File.Exists(fileName))
         {
-            if (!File.Exists(fileName))
+            try
             {
-                try
-                {
-                    using FileStream stream = new(fileName, FileMode.CreateNew, FileAccess.Write);
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    System.Diagnostics.Trace.TraceError($"Unable to create file '{fileName}': {ex}");
-                }
-                catch (IOException ex)
-                {
-                    System.Diagnostics.Trace.TraceError($"I/O error while creating file '{fileName}': {ex}");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Trace.TraceError($"Unexpected error while creating file '{fileName}': {ex}");
-                }
+                using FileStream stream = new(fileName, FileMode.CreateNew, FileAccess.Write);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                System.Diagnostics.Trace.TraceError($"Unable to create file '{fileName}': {ex}");
+            }
+            catch (IOException ex)
+            {
+                System.Diagnostics.Trace.TraceError($"I/O error while creating file '{fileName}': {ex}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError($"Unexpected error while creating file '{fileName}': {ex}");
             }
         }
     }

@@ -3,27 +3,26 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Adaptive.Intelligence.Framework.Tests.Security.Memory
+namespace Adaptive.Intelligence.Framework.Tests.Security.Memory;
+
+public class SecureMemoryItemBaseTMock : SecureMemoryItemBase<int>
 {
-    public class SecureMemoryItemBaseTMock : SecureMemoryItemBase<int>
+    protected override int TranslateValueFromBytes(byte[]? content)
     {
-        protected override int TranslateValueFromBytes(byte[]? content)
+        if (content == null || content.Length != 4)
         {
-            if (content == null || content.Length != 4)
-            {
-                throw new ArgumentException("Invalid byte array for integer conversion.");
-            }
-            return BitConverter.ToInt32(content, 0);
+            throw new ArgumentException("Invalid byte array for integer conversion.");
         }
+        return BitConverter.ToInt32(content, 0);
+    }
 
-        protected override byte[]? TranslateValueToBytes(int value)
-        {
-            return BitConverter.GetBytes(value);
-        }
+    protected override byte[]? TranslateValueToBytes(int value)
+    {
+        return BitConverter.GetBytes(value);
+    }
 
-        public void Clear()
-        {
-            base.ClearStorage();
-        }
+    public void Clear()
+    {
+        base.ClearStorage();
     }
 }
