@@ -117,4 +117,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Csv\Attributes\" />
+  </ItemGroup>
+
 </Project>
